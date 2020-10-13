@@ -27,17 +27,7 @@ namespace Sokoban
 
 
 
-        public event EventHandler OnZPressed;
-        
-        
-        private void update()
-        {
-            ConsoleKeyInfo Z = new ConsoleKeyInfo();
-            if ( .KeyChar == 'z')
-            {
-                OnZPressed?.Invoke(this, EventArgs.Empty);
-            }
-        }
+
 
         #endregion Evenement
         public Personnage(int x, int y) : base(x, y)
