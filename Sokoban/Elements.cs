@@ -6,8 +6,8 @@ namespace Sokoban
     {
         #region Champs privés
 
-        private int _longueur;
-        private int _largeur;
+        private int _x;
+        private int _y;
 
 
         #endregion Champs privés
@@ -16,8 +16,8 @@ namespace Sokoban
 
 
 
-        public int Largeur { get => _largeur; set => _largeur = value; }
-        public int Longueur { get => _longueur; set => _longueur = value; }
+        public int X { get => _x; set => _x = value; }
+        public int Y { get => _y; set => _y = value; }
 
 
 
@@ -32,11 +32,11 @@ namespace Sokoban
 
         }
 
-        public Elements(int largeur, int longueur)
+        public Elements(int x, int y)
             : this()
         {
-            this.Largeur = largeur;
-            this.Longueur = longueur;
+            this.X = x;
+            this.Y = y;
         }
 
         #endregion Constructeur

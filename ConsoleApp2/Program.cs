@@ -12,7 +12,8 @@ namespace ConsoleApp2
             Map test = new Map();
             IAfficher afficher = new AffichageConsole();
             ILoad obj = new LoadFromTxt();
-            afficher.Afficher(obj.Load(@"C:\Users\Utilisateur\Desktop\sokoban-maps-master\maps\sokoban-maps-60-plain.txt", 5));
+            Map obje = new Map();
+            afficher.Afficher(obje.GetMap(@"C:\Users\Utilisateur\Desktop\sokoban-maps-master\maps\sokoban-maps-60-plain.txt", 5));
         }
     }
 }
