@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sokoban", "Sokoban\Sokoban.csproj", "{E32B21BE-F781-4F3A-9B1B-5795BD434554}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientsServeur", "ClientServeur\ClientsServeur.csproj", "{C240E0E4-9F40-499D-A9A0-B0795DE95C8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E32B21BE-F781-4F3A-9B1B-5795BD434554}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E32B21BE-F781-4F3A-9B1B-5795BD434554}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E32B21BE-F781-4F3A-9B1B-5795BD434554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C240E0E4-9F40-499D-A9A0-B0795DE95C8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C240E0E4-9F40-499D-A9A0-B0795DE95C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C240E0E4-9F40-499D-A9A0-B0795DE95C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C240E0E4-9F40-499D-A9A0-B0795DE95C8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
