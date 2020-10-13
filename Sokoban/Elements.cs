@@ -13,13 +13,9 @@ namespace Sokoban
         #endregion Champs privés
 
         #region propriétés 
-
-
-
+        
         public int Largeur { get => _largeur; set => _largeur = value; }
         public int Longueur { get => _longueur; set => _longueur = value; }
-
-
 
         #endregion propriétés 
 
@@ -37,6 +33,7 @@ namespace Sokoban
         {
             this.Largeur = largeur;
             this.Longueur = longueur;
+            
         }
 
         #endregion Constructeur
