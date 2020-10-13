@@ -16,8 +16,9 @@
 
         #region Evenement
         #endregion Evenement
-
-
+        public Mur(int x, int y) : base(x, y)
+        {
+        }
     }
 
 
