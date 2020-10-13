@@ -5,9 +5,7 @@ VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sokoban", "Sokoban\Sokoban.csproj", "{E32B21BE-F781-4F3A-9B1B-5795BD434554}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilitaires", "Utilitaires\Utilitaires.csproj", "{142CA162-5701-427E-BEDF-8BE028FB8986}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{588C3CEE-1868-40D6-81A8-700E19DDD906}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilitaires", "Utilitaires\Utilitaires.csproj", "{142CA162-5701-427E-BEDF-8BE028FB8986}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientsServeur", "ClientServeur\ClientsServeur.csproj", "{C240E0E4-9F40-499D-A9A0-B0795DE95C8B}"
 EndProject
@@ -25,10 +23,6 @@ Global
 		{142CA162-5701-427E-BEDF-8BE028FB8986}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{142CA162-5701-427E-BEDF-8BE028FB8986}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{142CA162-5701-427E-BEDF-8BE028FB8986}.Release|Any CPU.Build.0 = Release|Any CPU
-		{588C3CEE-1868-40D6-81A8-700E19DDD906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{588C3CEE-1868-40D6-81A8-700E19DDD906}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{588C3CEE-1868-40D6-81A8-700E19DDD906}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{588C3CEE-1868-40D6-81A8-700E19DDD906}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C240E0E4-9F40-499D-A9A0-B0795DE95C8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C240E0E4-9F40-499D-A9A0-B0795DE95C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C240E0E4-9F40-499D-A9A0-B0795DE95C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU

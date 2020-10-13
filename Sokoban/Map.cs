@@ -10,7 +10,8 @@ namespace Sokoban
     {
         public IEnumerable Load(string path, int level)
         {
-            return this.Load(path, level);
+            ILoad obj = new LoadFromTxt();
+            return obj.Load(@"C:\Users\Utilisateur\Desktop\sokoban-maps-master\maps\sokoban-maps-60-plain.txt", 5);
         }
     }
 }

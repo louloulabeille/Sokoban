@@ -14,8 +14,14 @@ namespace ConsoleApp1
             ILoad load = new LoadFromTxt();
             List<List<char>> test = new List<List<char>>();
             Map t = new Map();
-            t.Load(@"C:\Users\Utilisateur\Desktop\sokoban - maps - master\maps\sokoban-maps-60-plain.txt", 5);
-            Console.WriteLine(t.ToString());
+            ILoad obj = new LoadFromTxt();
+            IEnumerable x = obj.Load(@"C:\Users\Utilisateur\Desktop\sokoban-maps-master\maps\sokoban-maps-60-plain.txt", 5);
+            foreach (List<char> elem in x)
+            {
+                Console.WriteLine(elem.ToArray());
+            }
+
+            Console.Read();
 
         }
     }
