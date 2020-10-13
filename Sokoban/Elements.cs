@@ -25,6 +25,10 @@ namespace Sokoban
         #endregion propriétés 
 
         #region Méthode
+        public override string ToString()
+        {
+            return this.Content.ToString();
+        }
         #endregion Méthode
 
         #region Constructeur
@@ -39,12 +43,6 @@ namespace Sokoban
             this.X = x;
             this.Y = y;
         }
-
-        public override string ToString()
-        {
-            return this.Content.ToString();
-        }
-
         #endregion Constructeur
 
 

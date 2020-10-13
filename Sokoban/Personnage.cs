@@ -20,7 +20,10 @@ namespace Sokoban
         #endregion Méthode
 
         #region Constructeur
-        
+        public Personnage(int x, int y) : base(x, y)
+        {
+            Content = '@';
+        }
         #endregion Constructeur
 
         #region Evenement
@@ -30,10 +33,7 @@ namespace Sokoban
 
 
         #endregion Evenement
-        public Personnage(int x, int y) : base(x, y)
-        {
-            Content = '@';
-        }
+
     }
 
 }
