@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Utilitaires
 {
-    public interface ILoad
+    public interface IAfficher
     {
-        List<List<char>> Load(string path, int level);
+        void Afficher(List<List<char>> map);
     }
 }

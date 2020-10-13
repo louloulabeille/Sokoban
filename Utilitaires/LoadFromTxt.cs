@@ -7,7 +7,7 @@ namespace Utilitaires
 {
     public class LoadFromTxt : ILoad
     {
-        IEnumerable ILoad.Load(string path, int level)
+        List<List<char>> ILoad.Load(string path, int level)
         {
             string text = File.ReadAllText(path);
             string toSearch = "Maze: " + level.ToString();
