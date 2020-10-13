@@ -18,6 +18,7 @@
         #endregion Evenement
         public Caisse(int x, int y) : base(x, y)
         {
+            Content = '*';
         }
     }
 
