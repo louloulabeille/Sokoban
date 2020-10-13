@@ -18,6 +18,7 @@
         #endregion Evenement
         public Mur(int x, int y) : base(x, y)
         {
+            Content = 'X';
         }
     }
 

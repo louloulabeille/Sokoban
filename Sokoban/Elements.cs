@@ -8,7 +8,7 @@ namespace Sokoban
 
         private int _x;
         private int _y;
-
+        private char _content;
 
         #endregion Champs privés
 
@@ -18,6 +18,7 @@ namespace Sokoban
 
         public int X { get => _x; set => _x = value; }
         public int Y { get => _y; set => _y = value; }
+        public char Content { get => _content; set => _content = value; }
 
 
 
@@ -37,6 +38,11 @@ namespace Sokoban
         {
             this.X = x;
             this.Y = y;
+        }
+
+        public override string ToString()
+        {
+            return this.Content.ToString();
         }
 
         #endregion Constructeur

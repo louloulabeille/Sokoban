@@ -29,17 +29,20 @@ namespace Sokoban
                         else if (x[i][j] == '.') this.Add(new Emplacement(i, j));
                         else if (x[i][j] == '*') this.Add(new Caisse(i, j));
                         else if (x[i][j] == '@') this.Add(new Personnage(i, j));
-                        else throw new ApplicationException("Erreur dans le fichier map. Charactère" + x[i][j] + "non reconnu");
+                        else throw new ApplicationException("Erreur dans le fichier map. Charactère '" + x[i][j] + "' non reconnu");
                     }
                 }
             }
             catch (ApplicationException e)
             {
-                Console.WriteLine(e);
+                throw new ApplicationException(e.Message);
             }
             return this;
         }
 
-
+       /* public override string ToString()
+        {
+            return string.Join(separator: ",", values: this.ForEach(Elements e in this);
+        }*/
     }
 }

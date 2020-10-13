@@ -18,6 +18,7 @@
         #endregion Evenement
         public Emplacement(int x, int y) : base(x, y)
         {
+            Content = '.';
         }
     }
 
