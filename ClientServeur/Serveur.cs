@@ -20,8 +20,9 @@ namespace ClientServeur
         public Serveur()
         {
             _socket = new TcpListener(IPAddress.Any, 8580);
-            _threadServeur = new Thread(new ThreadStart(ThreadServeurLoop));
-            this._threadServeur.Start();
+            //_threadServeur = new Thread(new ThreadStart(ThreadServeurLoop));
+            //this._threadServeur.Start();
+            ThreadServeurLoop();
         }
 
         private void ThreadServeurLoop()
@@ -29,7 +30,8 @@ namespace ClientServeur
             try
             {
                 this._socket.Start();   // lancement de l'écoute
-                while (this._threadServeur.IsAlive)
+                while (true)
+                //while (this._threadServeur.IsAlive)
                 {
                     Byte[] buffer = System.Text.Encoding.UTF8.GetBytes("j'aime le poulet.");
                     TcpClient client = this._socket.AcceptTcpClient();
