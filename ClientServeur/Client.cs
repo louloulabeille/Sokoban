@@ -49,7 +49,11 @@ namespace ClientServeur
             }
         }
 
-
+        /// <summary>
+        /// initialisation pour savoir si la connexion est ok
+        /// le client envoie iCopy
+        /// </summary>
+        /// <returns></returns>
         private bool Initclient()
         {
             NetworkStream nS = this._tcpClient.GetStream();
@@ -64,6 +68,7 @@ namespace ClientServeur
                 return false;
             }
         }
+
 
         private void ThreadClientLoop()
         {
