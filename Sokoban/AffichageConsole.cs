@@ -10,6 +10,7 @@ namespace Utilitaires
     {
         void IAfficher.Afficher(Map map)
         {
+            //Console.Clear();
             List<Map> listOfMap = new List<Map>();
             Map listElem = new Map();
             int c = 0;
@@ -33,7 +34,6 @@ namespace Utilitaires
                 }
                 Console.WriteLine();
             }
-            Console.Read();
         }
     }
 }

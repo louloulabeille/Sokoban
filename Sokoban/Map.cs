@@ -9,13 +9,30 @@ namespace Sokoban
 {
     public class Map : List<Elements>, ILoad
     {
+        //public delegate void deleg();
+        //public event deleg evnt;
+        private int _taille;
+
+        public int Taille { get => _taille; set => _taille = value; }
+
         public List<List<char>> Load(string path, int level)
         {
+            GetTailleY(path, level);
             ILoad obj = new LoadFromTxt();
             return obj.Load(path, level);
         }
+        private void GetTailleY(string path, int level)
+        {
+            string text = File.ReadAllText(path);
+            string toSearch = "Maze: " + level.ToString();
+            int postmp = text.IndexOf(toSearch, 0);
+            int pos2 = text.IndexOf("Size Y: ", postmp);
+            int pos1 = text.IndexOf("Size X: ", postmp) + 8;
+            Console.WriteLine(text.Substring(pos1, pos2 - pos1));
+            Taille = Int32.Parse(text.Substring(pos1, pos2 - pos1));
+        }
 
-        public Map GetMap(string path, int level)
+        public Map GetMapInit(string path, int level)
         {
             List<List<char>> listFull = new List<List<char>>(Load(path, level));
             try
@@ -39,7 +56,8 @@ namespace Sokoban
                                 this.Add(new Caisse(i, j));
                                 break;
                             case '@':
-                                this.Add(new Personnage(i, j));
+                                Personnage p = new Personnage(i, j);                              
+                                this.Add(p);
                                 break;
                             default:
                                 throw new ApplicationException("Erreur dans le fichier map. Charactère '" + listFull[i][j] + "' non reconnu");
@@ -54,9 +72,8 @@ namespace Sokoban
             return this;
         }
 
-       /* public override string ToString()
-        {
-            return string.Join(separator: ",", values: this.ForEach(Elements e in this);
-        }*/
+
+
+        
     }
 }

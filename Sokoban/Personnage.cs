@@ -8,21 +8,25 @@ namespace Sokoban
     {
         #region Champs privés
 
-
         #endregion Champs privés
 
         #region propriétés 
 
-
         #endregion propriétés 
 
         #region Méthode
+        
         #endregion Méthode
 
         #region Constructeur
         public Personnage(int x, int y) : base(x, y)
         {
-            Content = '@';
+            Content = '@';          
+        }
+
+        public Personnage()
+        {
+
         }
         #endregion Constructeur
 
