@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Sokoban
 {
-    public class Personnage : Elements
+    public class Personnage : OnEmplacements
     {
         #region Champs privés
 
@@ -21,7 +21,8 @@ namespace Sokoban
         #region Constructeur
         public Personnage(int x, int y) : base(x, y)
         {
-            Content = '@';          
+            Content = '@';
+            OnEmplacement = false;
         }
 
         public Personnage()
