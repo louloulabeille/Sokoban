@@ -59,6 +59,8 @@ namespace Sokoban
                                 Personnage p = new Personnage(i, j);                              
                                 this.Add(p);
                                 break;
+                            case '\r':
+                                break;
                             default:
                                 throw new ApplicationException("Erreur dans le fichier map. Charactère '" + listFull[i][j] + "' non reconnu");
                         }

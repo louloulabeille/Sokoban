@@ -139,7 +139,7 @@ namespace ConsoleApp2
             IAfficher afficher = new AffichageConsole();
             ILoad obj = new LoadFromTxt();
             Map obje = new Map();
-            obje.GetMapInit(@"C:\Users\Utilisateur\Desktop\sokoban-maps-master\maps\sokoban-maps-60-plain.txt", 4);
+            obje.GetMapInit(@"D:/ProjetSokoban/sokoban-maps-60-plain.txt", 4);
             while (true)
             {
                 Console.Clear();

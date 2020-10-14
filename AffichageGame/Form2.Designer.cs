@@ -42,6 +42,7 @@
             this.button1.TabIndex = 0;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // listBox1
             // 
@@ -68,8 +69,9 @@
             // 
             this.panel1.Location = new System.Drawing.Point(65, 57);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(730, 530);
+            this.panel1.Size = new System.Drawing.Size(700, 700);
             this.panel1.TabIndex = 2;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // Form2
             // 
