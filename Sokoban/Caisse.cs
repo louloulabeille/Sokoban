@@ -1,6 +1,6 @@
 ﻿namespace Sokoban
 {
-    public class Caisse : Elements
+    public class Caisse : OnEmplacements
     {
         #region Champs privés
         #endregion Champs privés
@@ -15,6 +15,7 @@
         public Caisse(int x, int y) : base(x, y)
         {
             Content = '*';
+            OnEmplacement = false;
         }
         #endregion Constructeur
 

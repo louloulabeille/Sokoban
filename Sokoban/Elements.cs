@@ -9,6 +9,7 @@ namespace Sokoban
         private int _x;
         private int _y;
         private char _content;
+        private bool _isMovable;
 
         #endregion Champs privés
 
@@ -19,11 +20,12 @@ namespace Sokoban
         public int X { get => _x; set => _x = value; }
         public int Y { get => _y; set => _y = value; }
         public char Content { get => _content; set => _content = value; }
+        public bool IsMovable { get => _isMovable; set => _isMovable = value; }
 
 
 
-        #endregion propriétés 
-
+        #endregion propriétés
+        //dd
         #region Méthode
         public override string ToString()
         {
