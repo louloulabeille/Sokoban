@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using ClientServeur;
 using Sokoban;
 using Utilitaires;
 
@@ -9,12 +10,13 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-            string path = Ressource.Files;
-            Map test = new Map();
+            /*Map test = new Map();
             IAfficher afficher = new AffichageConsole();
             ILoad obj = new LoadFromTxt();
             Map obje = new Map();
-            afficher.Afficher(obje.GetMap(path, 5));
+            afficher.Afficher(obje.GetMap(@"C:\Users\Utilisateur\Desktop\sokoban-maps-master\maps\sokoban-maps-60-plain.txt", 5));
+            */
+            Serveur s = new Serveur();
         }
     }
 }

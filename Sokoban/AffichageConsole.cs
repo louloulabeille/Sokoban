@@ -10,9 +10,23 @@ namespace Utilitaires
     {
         void IAfficher.Afficher(Map map)
         {
-            for (int i = 0; i<map.Count;i++)
+            List<Map> x = new List<Map>();
+            Map m = new Map();
+            int c = 0;
+            foreach (Elements e in map)
             {
-                Console.WriteLine(map[i]);
+                if (e.X == c) {
+                    m.Add(e);
+                }
+                else {
+                    x.Add(m);
+                    m = new Map();
+                    c += 1;
+                }
+            }
+            foreach (Map e in x)
+            {
+                Console.WriteLine(e);
             }
         }
     }

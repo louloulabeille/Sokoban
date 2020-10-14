@@ -12,13 +12,15 @@
         #endregion Méthode
 
         #region Constructeur
+        public Emplacement(int x, int y) : base(x, y)
+        {
+            Content = '.';
+        }
         #endregion Constructeur
 
         #region Evenement
         #endregion Evenement
-        public Emplacement(int x, int y) : base(x, y)
-        {
-        }
+
     }
 
 
