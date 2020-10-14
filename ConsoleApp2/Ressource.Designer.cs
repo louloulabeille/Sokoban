@@ -61,7 +61,7 @@ namespace ConsoleApp2 {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à @&quot;sokoban-maps-master\maps\sokoban-maps-60-plain.txt&quot;.
+        ///   Recherche une chaîne localisée semblable à sokoban-maps-60-plain.txt.
         /// </summary>
         internal static string Files {
             get {
