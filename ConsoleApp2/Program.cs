@@ -37,7 +37,7 @@ namespace ConsoleApp2
                         x[pos - 1].Y++;
                         p.Y--;
                     }
-                    else if (IsMoveOk(x[pos - 1]) == "Caisse")
+                    else if (x[pos - 1] is Caisse c)
                     {
                         if(IsMoveOk(x[pos - 2]) == "Elements")
                         {
@@ -51,7 +51,14 @@ namespace ConsoleApp2
                         }
                         else if (IsMoveOk(x[pos - 2]) == "Emplacement")
                         {
-
+                            c.OnEmplacement = true;
+                            x[pos] = new Elements(x[pos - 2].X, x[pos - 2].Y);
+                            x[pos - 2] = null;
+                            x[pos - 1].Y--;
+                            x[pos - 2] = x[pos - 1];
+                            x[pos - 1] = p;
+                            x[pos - 1].Y++;
+                            p.Y--;
                         }
                     }
                     break;
@@ -79,8 +86,7 @@ namespace ConsoleApp2
                         else if (IsMoveOk(x[pos - (x.Taille * 2)]) == "Emplacement")
                         {
 
-                        }
-                            
+                        }                         
                     }
                     break;
                 case ConsoleKey.RightArrow:
@@ -117,6 +123,8 @@ namespace ConsoleApp2
                     {
                         if (IsMoveOk(x[pos + (x.Taille * 2)]) == "Elements")
                         {
+                            if (x[pos] is Emplacement t) { 
+                            }
                             x[pos + (x.Taille * 2)].X -= 2;
                             x[pos] = x[pos + (x.Taille * 2)];
                             x[pos + x.Taille].X++;
@@ -139,7 +147,7 @@ namespace ConsoleApp2
             IAfficher afficher = new AffichageConsole();
             ILoad obj = new LoadFromTxt();
             Map obje = new Map();
-            obje.GetMapInit(@"D:/ProjetSokoban/sokoban-maps-60-plain.txt", 4);
+            obje.GetMapInit(@"C:\Users\Utilisateur\Desktop\sokoban-maps-master\maps\sokoban-maps-60-plain.txt", 1);
             while (true)
             {
                 Console.Clear();
