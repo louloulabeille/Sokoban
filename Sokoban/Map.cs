@@ -17,19 +17,33 @@ namespace Sokoban
 
         public Map GetMap(string path, int level)
         {
-            List<List<char>> x = new List<List<char>>(Load(path, level));
+            List<List<char>> listFull = new List<List<char>>(Load(path, level));
             try
             {
-                for (int i = 0; i < x.Count; i++)
+                for (int i = 0; i < listFull.Count; i++)
                 {
-                    for (int j = 0; j < x[i].Count; j++)
+                    for (int j = 0; j < listFull[i].Count; j++)
                     {
-                        if (x[i][j] == ' ') this.Add(new Elements(i, j));
-                        else if (x[i][j] == 'X') this.Add(new Mur(i, j));
-                        else if (x[i][j] == '.') this.Add(new Emplacement(i, j));
-                        else if (x[i][j] == '*') this.Add(new Caisse(i, j));
-                        else if (x[i][j] == '@') this.Add(new Personnage(i, j));
-                        else throw new ApplicationException("Erreur dans le fichier map. Charactère '" + x[i][j] + "' non reconnu");
+                        switch (listFull[i][j])
+                        {
+                            case ' ':
+                                this.Add(new Elements(i, j));
+                                break;
+                            case 'X':
+                                this.Add(new Mur(i, j));
+                                break;
+                            case '.':
+                                this.Add(new Emplacement(i, j));
+                                break;
+                            case '*':
+                                this.Add(new Caisse(i, j));
+                                break;
+                            case '@':
+                                this.Add(new Personnage(i, j));
+                                break;
+                            default:
+                                throw new ApplicationException("Erreur dans le fichier map. Charactère '" + listFull[i][j] + "' non reconnu");
+                        }
                     }
                 }
             }
