@@ -17,6 +17,8 @@ namespace Sokoban
         #endregion propriétés 
 
         #region Méthode
+        
+
         #endregion Méthode
 
         #region Constructeur
@@ -28,10 +30,17 @@ namespace Sokoban
 
         #region Evenement
 
+        public event EventHandler OnUPchanged;
 
+        private void Update()
+        {
+            if (Console.ReadKey(true).Key == ConsoleKey.UpArrow)
+            {
+                OnUPchanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
-
-
+       
         #endregion Evenement
 
     }
