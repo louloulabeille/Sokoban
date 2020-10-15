@@ -31,6 +31,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // button1
@@ -58,8 +59,59 @@
             "6",
             "7",
             "8",
-            "9"});
-            this.listBox1.Location = new System.Drawing.Point(945, 134);
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33",
+            "34",
+            "35",
+            "36",
+            "37",
+            "38",
+            "39",
+            "40",
+            "41",
+            "42",
+            "43",
+            "44",
+            "45",
+            "46",
+            "47",
+            "48",
+            "49",
+            "50",
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59",
+            "60"});
+            this.listBox1.Location = new System.Drawing.Point(945, 126);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(200, 224);
             this.listBox1.TabIndex = 1;
@@ -73,17 +125,26 @@
             this.panel1.TabIndex = 2;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(964, 432);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(125, 27);
+            this.textBox1.TabIndex = 3;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1321, 771);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button1);
             this.Name = "Form2";
             this.Text = "Form2";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -92,5 +153,6 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

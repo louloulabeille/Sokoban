@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.DirectoryServices.ActiveDirectory;
 
 namespace AffichageGame
 {
@@ -15,18 +16,18 @@ namespace AffichageGame
         public Form2()
         {
             InitializeComponent();
+            button1.Enabled = false;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            button1.Enabled = true;
         }
 
         public void test()
         {
             this.panel1.Controls.Clear();
             Map map = new Map();
-            panel1.BackColor = Color.White;
             string path = @"C:\Users\Bleik\Desktop\Sokoban\Sokoban-master(1)\Sokoban-master\sokoban-maps-60-plain.txt";
             map.GetMapInit(path, int.Parse(listBox1.SelectedItem.ToString()));
             int colonne = map.Colonne(path, int.Parse(listBox1.SelectedItem.ToString()));
@@ -59,9 +60,11 @@ namespace AffichageGame
                     bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
                     bouton.BackColor = Color.HotPink;
                 }
-                
+
                 panel1.Controls.Add(bouton);
             }
+
+
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -72,7 +75,7 @@ namespace AffichageGame
         private void button1_Click(object sender, EventArgs e)
         {
             test();
-            
+
         }
     }
 }
