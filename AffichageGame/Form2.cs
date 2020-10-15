@@ -1,4 +1,5 @@
 ﻿using Sokoban;
+using Utilitaires;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,26 +38,28 @@ namespace AffichageGame
                 PictureBox bouton = new PictureBox();
                 bouton.Size = new System.Drawing.Size(panel1.Width / colonne, panel1.Height / ligne);
                 char character = char.Parse(item.Content.ToString());
-                switch (character)
-                {
-                    case 'X':
-                        bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
-                        bouton.BackColor = Color.Red;
-                        break;
-                    case '@':
-                        bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
-                        bouton.BackColor = Color.Green;
-                        break;
-                    case '.':
-                        bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
-                        bouton.BackColor = Color.Black;
-                        break;
-                    case '*':
-                        bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
-                        bouton.BackColor = Color.Yellow;
 
-                        break;
+                if (item is Personnage)
+                {
+                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
+                    bouton.BackColor = Color.Blue;
                 }
+                else if (item is Caisse)
+                {
+                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
+                    bouton.BackColor = Color.Green;
+                }
+                else if (item is Mur)
+                {
+                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
+                    bouton.BackColor = Color.Black;
+                }
+                else if (item is Emplacement)
+                {
+                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
+                    bouton.BackColor = Color.HotPink;
+                }
+                
                 panel1.Controls.Add(bouton);
             }
         }
