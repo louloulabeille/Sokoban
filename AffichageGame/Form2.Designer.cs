@@ -28,22 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnSelect = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.btnDroite = new System.Windows.Forms.Button();
+            this.btnHaut = new System.Windows.Forms.Button();
+            this.btnBas = new System.Windows.Forms.Button();
+            this.btnGauche = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // btnSelect
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button1.Location = new System.Drawing.Point(945, 544);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(200, 73);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnSelect.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnSelect.Location = new System.Drawing.Point(945, 287);
+            this.btnSelect.Name = "btnSelect";
+            this.btnSelect.Size = new System.Drawing.Size(200, 73);
+            this.btnSelect.TabIndex = 0;
+            this.btnSelect.Text = "Selection LVL";
+            this.btnSelect.UseVisualStyleBackColor = true;
+            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
             // listBox1
             // 
@@ -111,7 +114,7 @@
             "58",
             "59",
             "60"});
-            this.listBox1.Location = new System.Drawing.Point(945, 126);
+            this.listBox1.Location = new System.Drawing.Point(945, 57);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(200, 224);
             this.listBox1.TabIndex = 1;
@@ -125,34 +128,64 @@
             this.panel1.TabIndex = 2;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // textBox1
+            // btnDroite
             // 
-            this.textBox1.Location = new System.Drawing.Point(964, 432);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(125, 27);
-            this.textBox1.TabIndex = 3;
+            this.btnDroite.Location = new System.Drawing.Point(1085, 534);
+            this.btnDroite.Name = "btnDroite";
+            this.btnDroite.Size = new System.Drawing.Size(60, 54);
+            this.btnDroite.TabIndex = 3;
+            this.btnDroite.UseVisualStyleBackColor = true;
+            // 
+            // btnHaut
+            // 
+            this.btnHaut.Location = new System.Drawing.Point(1019, 474);
+            this.btnHaut.Name = "btnHaut";
+            this.btnHaut.Size = new System.Drawing.Size(60, 54);
+            this.btnHaut.TabIndex = 3;
+            this.btnHaut.UseVisualStyleBackColor = true;
+            // 
+            // btnBas
+            // 
+            this.btnBas.Location = new System.Drawing.Point(1019, 534);
+            this.btnBas.Name = "btnBas";
+            this.btnBas.Size = new System.Drawing.Size(60, 54);
+            this.btnBas.TabIndex = 3;
+            this.btnBas.UseVisualStyleBackColor = true;
+            // 
+            // btnGauche
+            // 
+            this.btnGauche.Location = new System.Drawing.Point(953, 534);
+            this.btnGauche.Name = "btnGauche";
+            this.btnGauche.Size = new System.Drawing.Size(60, 54);
+            this.btnGauche.TabIndex = 3;
+            this.btnGauche.UseVisualStyleBackColor = true;
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1321, 771);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.btnGauche);
+            this.Controls.Add(this.btnBas);
+            this.Controls.Add(this.btnDroite);
+            this.Controls.Add(this.btnHaut);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnSelect);
             this.Name = "Form2";
             this.Text = "Form2";
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnSelect;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button btnDroite;
+        private System.Windows.Forms.Button btnHaut;
+        private System.Windows.Forms.Button btnBas;
+        private System.Windows.Forms.Button btnGauche;
     }
 }

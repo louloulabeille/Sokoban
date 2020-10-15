@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.DirectoryServices.ActiveDirectory;
+using System.IO;
 
 namespace AffichageGame
 {
@@ -16,22 +17,29 @@ namespace AffichageGame
         public Form2()
         {
             InitializeComponent();
-            button1.Enabled = false;
+            btnSelect.Enabled = false;
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            button1.Enabled = true;
+            btnSelect.Enabled = true;
         }
-
-        public void test()
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
+
+        }
+        public void AffichageMap()
+        {
+            string path = Resource.File;
+            string cd = Directory.GetCurrentDirectory();
+            DirectoryInfo di = new DirectoryInfo(cd);
+            di = di.Parent.Parent.Parent.Parent;
+
             this.panel1.Controls.Clear();
             Map map = new Map();
-            string path = @"C:\Users\Bleik\Desktop\Sokoban\Sokoban-master(1)\Sokoban-master\sokoban-maps-60-plain.txt";
-            map.GetMapInit(path, int.Parse(listBox1.SelectedItem.ToString()));
-            int colonne = map.Colonne(path, int.Parse(listBox1.SelectedItem.ToString()));
-            int ligne = map.Ligne(path, int.Parse(listBox1.SelectedItem.ToString()));
+            map.GetMapInit(di + "\\" + path, int.Parse(listBox1.SelectedItem.ToString()));
+            int colonne = map.Colonne(di + "\\" + path, int.Parse(listBox1.SelectedItem.ToString()));
+            int ligne = map.Ligne(di + "\\" + path, int.Parse(listBox1.SelectedItem.ToString()));
             if (colonne >= ligne) { ligne = colonne; }
             else { colonne = ligne; }
             foreach (var item in map)
@@ -40,42 +48,25 @@ namespace AffichageGame
                 bouton.Size = new System.Drawing.Size(panel1.Width / colonne, panel1.Height / ligne);
                 char character = char.Parse(item.Content.ToString());
 
-                if (item is Personnage)
+                if (item is Personnage) 
                 {
-                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
                     bouton.BackColor = Color.Blue;
                 }
-                else if (item is Caisse)
-                {
-                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
-                    bouton.BackColor = Color.Green;
-                }
-                else if (item is Mur)
-                {
-                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
-                    bouton.BackColor = Color.Black;
-                }
-                else if (item is Emplacement)
-                {
-                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
-                    bouton.BackColor = Color.HotPink;
-                }
 
+                else if (item is Caisse) { bouton.BackColor = Color.Green; }
+                else if (item is Mur) { bouton.BackColor = Color.Black; }
+                else if (item is Emplacement) { bouton.BackColor = Color.HotPink; }
+                else if (item is Elements) { bouton.BackColor = Color.Chartreuse; }
+                bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
                 panel1.Controls.Add(bouton);
             }
-
-
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
+        private void btnSelect_Click(object sender, EventArgs e)
         {
-
+            AffichageMap();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            test();
-
-        }
+        
     }
 }
