@@ -59,6 +59,11 @@ namespace AffichageGame
                     bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
                     bouton.BackColor = Color.HotPink;
                 }
+                else if (item is Elements)
+                {
+                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
+                    bouton.BackColor = Color.FloralWhite;
+                }
                 
                 panel1.Controls.Add(bouton);
             }
