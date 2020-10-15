@@ -35,6 +35,7 @@
             this.btnHaut = new System.Windows.Forms.Button();
             this.btnBas = new System.Windows.Forms.Button();
             this.btnGauche = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // btnSelect
@@ -143,6 +144,7 @@
             this.btnHaut.Size = new System.Drawing.Size(60, 54);
             this.btnHaut.TabIndex = 3;
             this.btnHaut.UseVisualStyleBackColor = true;
+            this.btnHaut.Click += new System.EventHandler(this.btnHaut_Click);
             // 
             // btnBas
             // 
@@ -160,11 +162,19 @@
             this.btnGauche.TabIndex = 3;
             this.btnGauche.UseVisualStyleBackColor = true;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(953, 399);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(192, 27);
+            this.textBox1.TabIndex = 4;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1321, 771);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnGauche);
             this.Controls.Add(this.btnBas);
             this.Controls.Add(this.btnDroite);
@@ -175,6 +185,7 @@
             this.Name = "Form2";
             this.Text = "Form2";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -187,5 +198,6 @@
         private System.Windows.Forms.Button btnHaut;
         private System.Windows.Forms.Button btnBas;
         private System.Windows.Forms.Button btnGauche;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
