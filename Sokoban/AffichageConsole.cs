@@ -10,7 +10,7 @@ namespace Utilitaires
     {
         void IAfficher.Afficher(Map map)
         {
-            int c = 0;
+            Console.Clear();
             for (int i = 0; i<map.Count; i++)
             {
                 if (i % map.Taille == 0) Console.WriteLine();
