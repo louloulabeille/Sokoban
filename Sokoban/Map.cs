@@ -31,6 +31,29 @@ namespace Sokoban
             Console.WriteLine(text.Substring(pos1, pos2 - pos1));
             Taille = Int32.Parse(text.Substring(pos1, pos2 - pos1));
         }
+        public int Colonne(string path, int level)
+        {
+            string text = File.ReadAllText(path);
+            string toSearch = "Maze: " + level.ToString();
+            int postmp = text.IndexOf(toSearch, 0);
+            int pos2 = text.IndexOf("Size Y: ", postmp);
+            int pos1 = text.IndexOf("Size X: ", postmp) + 8;
+            Console.WriteLine(text.Substring(pos1, pos2 - pos1));
+            Taille = Int32.Parse(text.Substring(pos1, pos2 - pos1));
+            return Taille;
+        }
+
+        public int Ligne(string path, int level)
+        {
+            string text = File.ReadAllText(path);
+            string toSearch = "Maze: " + level.ToString();
+            int postmp = text.IndexOf(toSearch, 0);
+            int pos2 = text.IndexOf("End: ", postmp);
+            int pos1 = text.IndexOf("Size Y: ", postmp) + 8;
+            Console.WriteLine(text.Substring(pos1, pos2 - pos1));
+            Taille = Int32.Parse(text.Substring(pos1, pos2 - pos1));
+            return Taille;
+        }
 
         public Map GetMapInit(string path, int level)
         {

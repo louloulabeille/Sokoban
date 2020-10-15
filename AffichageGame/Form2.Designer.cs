@@ -36,7 +36,7 @@
             // button1
             // 
             this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button1.Location = new System.Drawing.Point(920, 507);
+            this.button1.Location = new System.Drawing.Point(945, 544);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(200, 73);
             this.button1.TabIndex = 0;
@@ -59,7 +59,7 @@
             "7",
             "8",
             "9"});
-            this.listBox1.Location = new System.Drawing.Point(920, 97);
+            this.listBox1.Location = new System.Drawing.Point(945, 134);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(200, 224);
             this.listBox1.TabIndex = 1;
@@ -77,7 +77,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1271, 697);
+            this.ClientSize = new System.Drawing.Size(1321, 771);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button1);

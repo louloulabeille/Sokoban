@@ -1,4 +1,5 @@
 ﻿using Sokoban;
+using Utilitaires;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,35 +24,44 @@ namespace AffichageGame
 
         public void test()
         {
-        //    int ligne = 29;
-        //    int colonne = 29;
+            this.panel1.Controls.Clear();
             Map map = new Map();
-            string path = @"D:/ProjetSokoban/sokoban-maps-60-plain.txt";
-            map.GetMapInit(path, 2);
+            panel1.BackColor = Color.White;
+            string path = @"C:\Users\Bleik\Desktop\Sokoban\Sokoban-master(1)\Sokoban-master\sokoban-maps-60-plain.txt";
+            map.GetMapInit(path, int.Parse(listBox1.SelectedItem.ToString()));
+            int colonne = map.Colonne(path, int.Parse(listBox1.SelectedItem.ToString()));
+            int ligne = map.Ligne(path, int.Parse(listBox1.SelectedItem.ToString()));
+            if (colonne >= ligne) { ligne = colonne; }
+            else { colonne = ligne; }
+            foreach (var item in map)
+            {
+                PictureBox bouton = new PictureBox();
+                bouton.Size = new System.Drawing.Size(panel1.Width / colonne, panel1.Height / ligne);
+                char character = char.Parse(item.Content.ToString());
 
-            //for (int j = 0; j < ligne; j++)
-            //{
-            //    for (int i = 0; i < colonne; i++)
-            //    {
-            //        Panel bouton = new Panel();
-            //        bouton.Size = new System.Drawing.Size(panel1.Width / colonne, panel1.Height / ligne);
-            //        bouton.BackColor = Color.White;
-            //        if (j % 2 == 0)
-            //        {
-            //            bouton.Location = new Point(i * panel1.Width / colonne * 2, j * panel1.Width / ligne);
-            //            bouton.BackColor = Color.Black;
-            //            panel1.Controls.Add(bouton);
-            //        }
-            //        else
-            //        {
-            //            bouton.Location = new Point(panel1.Width / colonne + i * panel1.Width / colonne * 2, j * panel1.Width / ligne);
-            //            bouton.BackColor = Color.Black;
-            //            panel1.Controls.Add(bouton);
-            //        }
-
-            //    }
-            //}
-
+                if (item is Personnage)
+                {
+                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
+                    bouton.BackColor = Color.Blue;
+                }
+                else if (item is Caisse)
+                {
+                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
+                    bouton.BackColor = Color.Green;
+                }
+                else if (item is Mur)
+                {
+                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
+                    bouton.BackColor = Color.Black;
+                }
+                else if (item is Emplacement)
+                {
+                    bouton.Location = new Point(item.Y * panel1.Width / colonne, item.X * panel1.Width / ligne);
+                    bouton.BackColor = Color.HotPink;
+                }
+                
+                panel1.Controls.Add(bouton);
+            }
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
