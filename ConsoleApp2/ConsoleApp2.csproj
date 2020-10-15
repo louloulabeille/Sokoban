@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AffichageGame\AffichageGame.csproj" />
     <ProjectReference Include="..\ClientServeur\ClientsServeur.csproj" />
     <ProjectReference Include="..\Sokoban\Sokoban.csproj" />
     <ProjectReference Include="..\Utilitaires\Utilitaires.csproj" />

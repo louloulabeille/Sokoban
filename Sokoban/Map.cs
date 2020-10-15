@@ -28,7 +28,6 @@ namespace Sokoban
             int postmp = text.IndexOf(toSearch, 0);
             int pos2 = text.IndexOf("Size Y: ", postmp);
             int pos1 = text.IndexOf("Size X: ", postmp) + 8;
-            Console.WriteLine(text.Substring(pos1, pos2 - pos1));
             Taille = Int32.Parse(text.Substring(pos1, pos2 - pos1));
         }
         public int Colonne(string path, int level)
@@ -38,7 +37,6 @@ namespace Sokoban
             int postmp = text.IndexOf(toSearch, 0);
             int pos2 = text.IndexOf("Size Y: ", postmp);
             int pos1 = text.IndexOf("Size X: ", postmp) + 8;
-            Console.WriteLine(text.Substring(pos1, pos2 - pos1));
             Taille = Int32.Parse(text.Substring(pos1, pos2 - pos1));
             return Taille;
         }
@@ -50,7 +48,6 @@ namespace Sokoban
             int postmp = text.IndexOf(toSearch, 0);
             int pos2 = text.IndexOf("End: ", postmp);
             int pos1 = text.IndexOf("Size Y: ", postmp) + 8;
-            Console.WriteLine(text.Substring(pos1, pos2 - pos1));
             Taille = Int32.Parse(text.Substring(pos1, pos2 - pos1));
             return Taille;
         }
