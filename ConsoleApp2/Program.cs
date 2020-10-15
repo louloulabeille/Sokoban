@@ -5,8 +5,9 @@ using System.IO;
 using ClientServeur;
 using Sokoban;
 using Utilitaires;
-using static System.Net.Mime.MediaTypeNames;
 
+using AffichageGame;
+using System.Windows.Forms;
 namespace ConsoleApp2
 {
     class Program
@@ -17,16 +18,13 @@ namespace ConsoleApp2
             string cd = Directory.GetCurrentDirectory();
             DirectoryInfo di = new DirectoryInfo(cd);
             di = di.Parent.Parent.Parent.Parent;
-            Map test = new Map();
-            IAfficher afficher = new AffichageConsole();
+            
             ILoad obj = new LoadFromTxt();
             Map obje = new Map();
-            obje.GetMapInit(di+"\\"+path, 1);
-            while (true)
-            {         
-                afficher.Afficher(obje);
-                obje = Map.OnMove(obje);                
-            }
+            //IAfficher afficher = ;
+            Application.Run(new AffichageGraphique(obje.GetMapInit(di + "\\" + path, 2)));
+
+
         }
 
         //Serveur s = new Serveur();

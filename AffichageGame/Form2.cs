@@ -12,13 +12,22 @@ using System.IO;
 
 namespace AffichageGame
 {
-    public partial class Form2 : Form
+    public partial class Form2 : Form, IAfficher
     {
         public Form2()
         {
             InitializeComponent();
             btnSelect.Enabled = false;
-
+            Map test = new Map();
+            IAfficher afficher = new Form2();
+            ILoad obj = new LoadFromTxt();
+            Map obje = new Map();
+           // obje.GetMapInit(di + "\\" + "sokoban-maps-60-plain.txt", 2);
+            while (true)
+            {
+                afficher.Afficher(obje);
+                obje = Map.OnMove(obje);
+            }
 
         }
 
@@ -58,12 +67,9 @@ namespace AffichageGame
             return taille;
         }
 
-        public void AffichageMap()
+        public void Afficher(Map map)
         {
             this.panel1.Controls.Clear();
-            Map map = new Map();
-
-            map = LoadMap();
             int taille = Taille(map);
 
             foreach (var item in map)
@@ -86,7 +92,8 @@ namespace AffichageGame
 
         private void btnSelect_Click(object sender, EventArgs e)
         {
-            AffichageMap();
+            Map x = LoadMap();
+            Afficher(x);
         }
 
         private PictureBox getPictureBoxByName(string name)
@@ -104,5 +111,6 @@ namespace AffichageGame
         {
             
         }
+
     }
 }

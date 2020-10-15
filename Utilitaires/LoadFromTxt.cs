@@ -16,7 +16,6 @@ namespace Utilitaires
             int pos1 = text.IndexOf("\r\n\r\n", postmp) + 4;
             string tmp = text.Substring(pos1, pos2 - pos1);
             List<string> listTmp = tmp.Split('\n').ToList();
-            System.Console.WriteLine(listTmp.ToArray());
             List<List<char>> toReturn = new List<List<char>>();
             for (int i = 0; i < listTmp.Count; i++)
             {
