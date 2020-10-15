@@ -46,13 +46,10 @@ namespace AffichageGame
             {
                 PictureBox bouton = new PictureBox();
                 bouton.Size = new System.Drawing.Size(panel1.Width / colonne, panel1.Height / ligne);
-                char character = char.Parse(item.Content.ToString());
-
                 if (item is Personnage) 
                 {
                     bouton.BackColor = Color.Blue;
                 }
-
                 else if (item is Caisse) { bouton.BackColor = Color.Green; }
                 else if (item is Mur) { bouton.BackColor = Color.Black; }
                 else if (item is Emplacement) { bouton.BackColor = Color.HotPink; }
