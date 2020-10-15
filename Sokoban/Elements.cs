@@ -44,6 +44,7 @@ namespace Sokoban
         {
             this.X = x;
             this.Y = y;
+            Content = ' ';
         }
         #endregion Constructeur
 

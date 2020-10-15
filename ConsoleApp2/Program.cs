@@ -49,15 +49,13 @@ namespace ConsoleApp2
                             x[pos - 1].Y++;
                             p.Y--;
                         }
-                        else if (IsMoveOk(x[pos - 2]) == "Emplacement")
+                        else if (x[pos - 2] is Emplacement e)
                         {
                             c.OnEmplacement = true;
-                            x[pos] = new Elements(x[pos - 2].X, x[pos - 2].Y);
-                            x[pos - 2] = null;
-                            x[pos - 1].Y--;
-                            x[pos - 2] = x[pos - 1];
-                            x[pos - 1] = p;
-                            x[pos - 1].Y++;
+                            x[x.FindIndex(ind => ind.Equals(c))] = p;
+                            x[x.FindIndex(ind => ind.Equals(e))] = c;                                        
+                            x[x.FindIndex(ind => ind.Equals(p))+1] = new Elements(e.X, e.Y + 2); ;
+                            c.Y--;
                             p.Y--;
                         }
                     }
@@ -72,7 +70,7 @@ namespace ConsoleApp2
                         p.X--;
                         x[pos - x.Taille] = p;
                     }
-                    else if (IsMoveOk(x[pos - x.Taille]) == "Caisse")
+                    else if (x[pos - x.Taille] is Caisse c)
                     {
                         if (IsMoveOk(x[pos - (x.Taille * 2)]) == "Elements")
                         {         
@@ -83,9 +81,15 @@ namespace ConsoleApp2
                             p.X--;
                             x[pos - x.Taille] = p;                                                   
                         }
-                        else if (IsMoveOk(x[pos - (x.Taille * 2)]) == "Emplacement")
+                        else if (x[pos - (x.Taille * 2)] is Emplacement e)
                         {
-
+                            c.OnEmplacement = true;
+                            x[x.FindIndex(ind => ind.Equals(c))] = p;
+                            Elements news = new Elements(p.X, p.Y);
+                            x[x.FindIndex(ind => ind.Equals(e))] = c;
+                            x[x.FindIndex(ind => ind.Equals(p)) + 1] = news ;
+                            c.X--;
+                            p.X--;
                         }                         
                     }
                     break;
@@ -97,7 +101,7 @@ namespace ConsoleApp2
                         x[pos + 1].Y--;
                         p.Y = p.Y++;
                     }
-                    else if (IsMoveOk(x[pos +1]) == "Caisse")
+                    else if (x[pos +1] is Caisse c)
                     {
                         if (IsMoveOk(x[pos + 2]) == "Elements")
                         {
@@ -105,6 +109,17 @@ namespace ConsoleApp2
                             x[pos] = x[pos+ 2];
                             x[pos + 1].Y++;
                             x[pos + 2] = x[pos + 1];
+                            x[pos + 1] = p;
+                            x[pos + 1].Y--;
+                            p.Y++;
+                        }
+                        else if (IsMoveOk(x[pos+2]) == "Emplacement")
+                        {
+                            c.OnEmplacement = true;
+
+                            x[pos] = new Elements(x[pos + 2].X, x[pos + 2].Y);
+                            x.Remove(x[pos + 2]);
+                            x[pos + 1].Y++;
                             x[pos + 1] = p;
                             x[pos + 1].Y--;
                             p.Y++;
@@ -119,13 +134,22 @@ namespace ConsoleApp2
                         p.X++;
                         x[pos + x.Taille] = p;
                     }  
-                    else if (IsMoveOk(x[pos + x.Taille]) == "Caisse") 
+                    else if (x[pos + x.Taille] is Caisse c) 
                     {
                         if (IsMoveOk(x[pos + (x.Taille * 2)]) == "Elements")
                         {
-                            if (x[pos] is Emplacement t) { 
-                            }
                             x[pos + (x.Taille * 2)].X -= 2;
+                            x[pos] = x[pos + (x.Taille * 2)];
+                            x[pos + x.Taille].X++;
+                            x[pos + (x.Taille * 2)] = x[pos + x.Taille];
+                            p.X++;
+                            x[pos + x.Taille] = p;
+                        }
+                        else if (IsMoveOk(x[pos + (x.Taille * 2)]) == "Emplacement")
+                        {
+                            c.OnEmplacement = true;
+                            x[pos] = new Elements(x[pos + (x.Taille * 2)].X, x[pos + (x.Taille * 2)].Y);
+                            x[pos + (x.Taille * 2)] = null;
                             x[pos] = x[pos + (x.Taille * 2)];
                             x[pos + x.Taille].X++;
                             x[pos + (x.Taille * 2)] = x[pos + x.Taille];
@@ -152,8 +176,7 @@ namespace ConsoleApp2
             {
                 Console.Clear();
                 afficher.Afficher(obje);
-                obje = OnMove(obje);
-                
+                obje = OnMove(obje);                
             }
         }
 
