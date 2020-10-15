@@ -15,7 +15,7 @@ namespace Sokoban
 
         #region propriétés 
 
-        public int X
+        public virtual int X
         { 
             get => _x;
             set
@@ -23,7 +23,7 @@ namespace Sokoban
                 _x = value;
             }
         }
-        public int Y { get => _y; set => _y = value; }
+        public virtual int Y { get => _y; set => _y = value; }
         public char Content { get => _content; set => _content = value; }
         public bool IsMovable { get => _isMovable; set => _isMovable = value; }
 
