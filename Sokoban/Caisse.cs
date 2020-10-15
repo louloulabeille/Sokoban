@@ -1,4 +1,6 @@
-﻿namespace Sokoban
+﻿using System;
+
+namespace Sokoban
 {
     public class Caisse : OnEmplacements
     {
@@ -20,6 +22,9 @@
         #endregion Constructeur
 
         #region Evenement
+        event EventHandler EventMoveCaisse;
+
+
         #endregion Evenement
 
     }

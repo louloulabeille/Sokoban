@@ -44,7 +44,8 @@
             this.Multijoueur});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(105, 758);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(86, 568);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -54,29 +55,30 @@
             this.Solo.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.Nouvelle_Partie_Solo});
             this.Solo.Name = "Solo";
-            this.Solo.Size = new System.Drawing.Size(92, 24);
+            this.Solo.Size = new System.Drawing.Size(75, 19);
             this.Solo.Text = "Solo";
             // 
             // Nouvelle_Partie_Solo
             // 
             this.Nouvelle_Partie_Solo.Name = "Nouvelle_Partie_Solo";
-            this.Nouvelle_Partie_Solo.Size = new System.Drawing.Size(192, 26);
+            this.Nouvelle_Partie_Solo.Size = new System.Drawing.Size(154, 22);
             this.Nouvelle_Partie_Solo.Text = "Nouvelle Partie";
             this.Nouvelle_Partie_Solo.Click += new System.EventHandler(this.click_Solo);
             // 
             // Multijoueur
             // 
             this.Multijoueur.Name = "Multijoueur";
-            this.Multijoueur.Size = new System.Drawing.Size(92, 24);
+            this.Multijoueur.Size = new System.Drawing.Size(75, 19);
             this.Multijoueur.Text = "Multijoueur";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1434, 758);
+            this.ClientSize = new System.Drawing.Size(1255, 568);
             this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "FormMDI";
             this.menuStrip1.ResumeLayout(false);

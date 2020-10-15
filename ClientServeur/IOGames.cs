@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Security;
+using System.Net.Sockets;
 using System.Text;
 
 namespace ClientServeur
 {
     public abstract class IOGame
     {
-        private bool _endGame;  // gère la fin du jeux ou le redémarrage
-        private bool _winGame;  // gère si une partie à gagner
+        private bool _endGame;  // gère la fin du jeux
+        private bool _winGame;  // gère si une partie est gagnée
         private bool _deconnexion;  // gère la déconnexion
-        private bool _initialisation;   // information de l'inititalisation de début de partie pour la syncho
+        private bool _gameReady;
+        private bool _initialisation; 
+        private bool _wait;
         private int _port;
+        
+        private TcpClient _tcpClient;
 
         #region constructeur
         /// <summary>
@@ -23,7 +29,8 @@ namespace ClientServeur
             EndGame = false;
             WinGame = false;
             Deconnexion = false;
-            Initialisation = false;
+            GameReady = false;
+            Wait = false;
         }
         public IOGame(int port)
             : base()
@@ -71,13 +78,13 @@ namespace ClientServeur
             }
         }
 
-        public bool Initialisation
+        public bool GameReady
         {
-            get => _initialisation;
+            get => _gameReady;
             set
             {
-                OnEventInitialisation(this, new EventArgsInitialisation(value));
-                _initialisation = value;
+                if ( value ) OnEventGameReady(this, new EventArgsInitialisation(value));
+                _gameReady = value;
             }
         }
 
@@ -89,6 +96,18 @@ namespace ClientServeur
                 _port = IsVerifPort(value) ? value : throw (new ArgumentOutOfRangeException("Les ports doivent être compris entre {0} et {1}.", IPEndPoint.MaxPort.ToString(), IPEndPoint.MinPort.ToString()));
             }
         }
+
+        public bool Wait 
+        { 
+            get => _wait;
+            set
+            {
+                OnEventWait(this, new EventArgs());
+                _wait = value;
+            }
+        }
+
+        public TcpClient TcpClient { get => _tcpClient; set => _tcpClient = value; }
 
         #endregion
 
@@ -104,7 +123,8 @@ namespace ClientServeur
         public event EventHandler EventEndGame;
         public event EventHandler EventWinGame;
         public event EventHandler EventDeconnexion;
-        public event EventHandler EventInitialisation;
+        public event EventHandler EventGameReady;
+        public event EventHandler EventWait;
         #endregion
 
         #region methode des events de lancement
@@ -141,12 +161,138 @@ namespace ClientServeur
             if (handler != null) handler(sender, e);
         }
 
-        protected virtual void OnEventInitialisation(object sender, EventArgs e)
+        /// <summary>
+        /// event en attente initialisation du jeu quand tout est prêt pour lancer le jeu 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnEventGameReady(object sender, EventArgs e)
         {
-            EventHandler hendler = EventInitialisation;
+            EventHandler hendler = EventGameReady;
             if (hendler != null) hendler(sender, e);
+        }
+
+        /// <summary>
+        /// mise en attente
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnEventWait(object sender, EventArgs e)
+        {
+            EventHandler hendler = EventWait;
+            if (hendler != null) hendler(hendler, e);
         }
         #endregion
 
+        #region methode event
+
+        /// <summary>
+        /// Event de gestion si le partie sont prêt a jouer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void IOGames_EventGameReady( object sender, EventArgs e)
+        {
+            if ( GameReady )
+            {
+                Envoi(TcpClient, MessageReseau.gameReady);
+            }
+        }
+
+        /// <summary>
+        /// Methode de event arret du jeu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void IOGames_EventDeconnexion(object sender, EventArgs e)
+        {
+            if ( Envoi(TcpClient, MessageReseau.stop) )
+            {
+                StopAll();
+            }
+            StopAll();
+            Deconnexion = false;
+        }
+
+        /// <summary>
+        /// gestion de event deconnexion ou connexion impossible
+        /// on refait 5 tentatives
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void Client_EventEndGame(object sender, EventArgs e)
+        {
+            if (Envoi(TcpClient, MessageReseau.stop))
+            {
+                StopAll();
+            }
+            StopAll();
+        }
+        #endregion
+
+        #region methode
+
+        /// <summary>
+        /// méthode pour l'arrêt du jeu coté client
+        /// </summary>
+        protected virtual bool StopAll()
+        {
+            this.TcpClient.Close();
+            return true;
+        }
+
+        public void Arret()
+        {
+            this.EventDeconnexion += IOGames_EventDeconnexion;
+            Deconnexion = true;
+        }
+
+        /// <summary>
+        /// initialisation du lancement du jeu
+        /// attente de init
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="nbOctet"></param>
+        /// <returns></returns>
+        protected virtual byte[] Lecture(TcpClient client, out int nbOctet)
+        {
+            byte[] buffer = new byte[1024];
+            NetworkStream nS = client.GetStream();
+            nbOctet = 0;
+            if (nS.CanRead)
+            {
+                do
+                {
+                    nbOctet = nS.Read(buffer, 0, buffer.Length);
+                } while (nS.DataAvailable);
+            }
+            return buffer;
+        }
+
+        /// <summary>
+        /// méthode à mettre à fin du chargement
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        protected bool Envoi(TcpClient client, MessageReseau message)
+        {
+            if (client.Connected)
+            {
+                NetworkStream nS = client.GetStream();
+                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(message.ToString());
+                if (nS.CanWrite)
+                {
+                    nS.Write(buffer);
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        #endregion
     }
 }
