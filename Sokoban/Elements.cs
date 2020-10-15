@@ -6,8 +6,8 @@ namespace Sokoban
     {
         #region Champs privés
 
-        private int _x;
-        private int _y;
+        protected int _x;
+        protected int _y;
         private char _content;
         private bool _isMovable;
 
@@ -15,9 +15,14 @@ namespace Sokoban
 
         #region propriétés 
 
-
-
-        public int X { get => _x; set => _x = value; }
+        public int X
+        { 
+            get => _x;
+            set
+            {
+                _x = value;
+            }
+        }
         public int Y { get => _y; set => _y = value; }
         public char Content { get => _content; set => _content = value; }
         public bool IsMovable { get => _isMovable; set => _isMovable = value; }
@@ -47,7 +52,10 @@ namespace Sokoban
             Content = ' ';
         }
         #endregion Constructeur
+        #region event
+        #endregion
 
+        
 
     }
 
