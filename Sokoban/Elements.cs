@@ -24,8 +24,8 @@ namespace Sokoban
 
 
 
-        #endregion propriétés 
-
+        #endregion propriétés
+        //dd
         #region Méthode
         public override string ToString()
         {
