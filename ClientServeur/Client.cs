@@ -13,9 +13,9 @@ namespace ClientServeur
     /// </summary>
     public class Client : IOGame
     {
-        private TcpClient _tcpClient;
         private Thread _threadClient;
         private IPAddress _adresseIP;       // adresse ip du serveur
+
 
         #region constructeur
         /// <summary>
@@ -34,91 +34,62 @@ namespace ClientServeur
         #endregion
 
         #endregion
+        /// <summary>
+        /// connexion au serveur
+        /// </summary>
         private void Connexion()
         {
-            //this._tcpClient = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            this._tcpClient = new TcpClient(AddressFamily.InterNetwork);
-            this._tcpClient.Connect(AdresseIP, Port);
-            if (this._tcpClient.Connected)
+            this.TcpClient = new TcpClient(AddressFamily.InterNetwork);
+            this.TcpClient.Connect(AdresseIP, Port);
+            if (this.TcpClient.Connected)
             {
-                if (!Initclient()) throw (new ApplicationException("La connexion vers le serveur est impossible./nDéclaration de la connexion en lecture seule."));
+                if (!Envoi(this.TcpClient,MessageReseau.init))
+                {
+                    StopAll();
+                    //throw (new ApplicationException("La connexion vers le serveur est impossible./nDéclaration de la connexion en lecture seule."));
+                }
+                ThreadClientLoop();
             }
             else
             {
-                throw (new SocketException());
+                StopAll();
             }
         }
 
         /// <summary>
-        /// initialisation pour savoir si la connexion est ok
-        /// le client envoie iCopy
+        /// Garder le client connecté au serveur
+        /// et passe en attente
         /// </summary>
-        /// <returns></returns>
-        private bool Initclient()
-        {
-            NetworkStream nS = this._tcpClient.GetStream();
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(MessageReseau.iCopy.ToString());
-            if (nS.CanWrite)
-            {
-                nS.Write(buffer);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
         private void ThreadClientLoop()
         {
             try
             {
-                //while (this._threadClient.IsAlive) {
-                /*IPAddress localHost = Dns.GetHostEntry(Dns.GetHostName()).AddressList[0];
-                IPEndPoint iPeP = new IPEndPoint(localHost, 0);
-                this._tcpClient = new TcpClient(iPeP);*/
-
-                byte[] readBuffer = new byte[1024];
-                int nbOctet;
-                StringBuilder sB = new StringBuilder();
-
-                while (this._threadClient.IsAlive)
+                bool stop = true;
+                while (stop)
                 {
-                    //nbOctet = this._tcpClient.Receive(readBuffer);
-                    sB.AppendFormat("{0}", Encoding.UTF8.GetString(readBuffer));
-                    Debug.WriteLine(sB.ToString());
+                    StringBuilder sB = new StringBuilder();
+                    byte[] buffer = new byte[1024];
+                    int nbOctet;
+                    string message;
 
+                    buffer = Lecture(this.TcpClient, out nbOctet);
+                    message = sB.AppendFormat("{0}", Encoding.UTF8.GetString(buffer, 0, nbOctet)).ToString();
+                    Debug.WriteLine(message);
 
-                }
-                Debug.WriteLine(sB.ToString());
-
-                /*
-                IPEndPoint iPeP = new IPEndPoint(ip, 8580);
-                Debug.WriteLine(iPeP.Address.ToString());
-                this._tcpClient = new TcpClient(iPeP);
-
-                NetworkStream nS = this._tcpClient.GetStream();
-
-                if (nS.CanRead)
-                {
-                    do
+                    switch(message)
                     {
-                        nbOctet = nS.Read(readBuffer, 0, readBuffer.Length);
-                        sB.AppendFormat("{0}", Encoding.UTF8.GetString(readBuffer, 0, nbOctet));
-                    } while (nS.DataAvailable);
-
-                    Debug.WriteLine(sB.ToString());
+                        case "gameReady":
+                            if ( !GameReady )
+                            {
+                                EventGameReady += IOGames_EventGameReady;
+                                GameReady = true;
+                            }
+                            break;
+                        case "stop":
+                            stop = !StopAll();
+                            break;
+                    }
                 }
-                else
-                {
-                    Debug.WriteLine("Impossible de lire sur le NetworkStream.");
-                }
-                nS.Close();
-                this._tcpClient.Close();
-                this._threadClient.Abort();
-                */
-
             }
             catch (ArgumentNullException aNE)
             {
@@ -156,5 +127,10 @@ namespace ClientServeur
                 Debug.WriteLine("Source: {0}", e.Source);
             }
         }
+
+        #region method des event
+
+
+        #endregion
     }
 }

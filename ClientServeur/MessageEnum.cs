@@ -4,7 +4,7 @@
 
 namespace ClientServeur
 {
-    enum MessageReseau
+    public enum MessageReseau
     {
         init,
         iCopy,
@@ -13,5 +13,7 @@ namespace ClientServeur
         deconnexion,
         debutMessage,
         finMessage,
+        gameReady,
+        stop,
     }
 }

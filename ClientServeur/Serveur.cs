@@ -22,12 +22,10 @@ namespace ClientServeur
         public Serveur(int port)
             : base(port)    /// initialisation des paramètres au vert
         {
-            //_socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
             _socket = new TcpListener(IPAddress.Any, Port);
             _threadServeur = new Thread(new ThreadStart(ThreadServeurLoop));
+            _threadServeur.IsBackground = true;
             this._threadServeur.Start();
-
         }
         #endregion
 
@@ -37,29 +35,37 @@ namespace ClientServeur
             try
             {
                 this._socket.Start();   // lancement de l'écoute
-                //while (this._threadServeur.IsAlive)
-                //Byte[] buffer = System.Text.Encoding.UTF8.GetBytes("j'aime le poulet.");
                 byte[] buffer = new byte[1024];
                 int nbOctet;
                 StringBuilder sB = new StringBuilder();
+                bool stop = true;
 
-                while (true)
+                while (stop)
                 {
                     string message;
-                    TcpClient client = this._socket.AcceptTcpClient();
-                    buffer = InitClient(client, out nbOctet);
+                    this.TcpClient = this._socket.AcceptTcpClient(); // attente d'une connexion le traitement s'arrete
+                    buffer = Lecture(this.TcpClient, out nbOctet);
                     message = sB.AppendFormat("{0}", Encoding.UTF8.GetString(buffer, 0, nbOctet)).ToString();
-
                     switch (message)
                     {
+                        case "gameReady":
+                            if ( !GameReady )
+                            {
+                                EventGameReady += OnEventGameReady;
+                                GameReady = true;
+                            } 
+                            break;
+                        case "stop":
+                            stop = !StopAll();
+                            break;
                         case "iCopy":
-                            Debug.WriteLine("Connexion du serveur ok");
+                            break;
+                        case "init":
 
+                            Debug.WriteLine("Connexion du client ok.");
                             break;
                     }
-                    client.Close();
                 }
-
             }
             catch (ArgumentNullException aNE)
             {
@@ -98,22 +104,12 @@ namespace ClientServeur
             }
         }
 
-        private byte[] InitClient(TcpClient client, out int nbOctet)
+        protected override bool StopAll()
         {
-            byte[] buffer = new byte[1024];
-            NetworkStream nS = client.GetStream();
-            nbOctet = 0;
-            if (nS.CanRead)
-            {
-                do
-                {
-                    nbOctet = nS.Read(buffer, 0, buffer.Length);
-                } while (nS.DataAvailable);
-            }
-            return buffer;
+            this.TcpClient.Close();
+            this._socket.Stop();
+            return true;
         }
-
-
 
         #endregion
     }
