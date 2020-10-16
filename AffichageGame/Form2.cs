@@ -23,11 +23,11 @@ namespace AffichageGame
             ILoad obj = new LoadFromTxt();
             Map obje = new Map();
            // obje.GetMapInit(di + "\\" + "sokoban-maps-60-plain.txt", 2);
-            while (true)
+           /* while (true)
             {
                 afficher.Afficher(obje);
                 obje = Map.OnMove(obje);
-            }
+            }*/
 
         }
 

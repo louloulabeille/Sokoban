@@ -16,6 +16,7 @@ namespace Utilitaires
                 if (i % map.Taille == 0) Console.WriteLine();
                 Console.Write(map[i]);
             }
+            Console.WriteLine(Caisse.nbMouvement);
         }
     }
 }
