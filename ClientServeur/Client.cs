@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Utilitaires;
 
 namespace ClientServeur
 {
@@ -25,8 +26,12 @@ namespace ClientServeur
             : base(port)
         {
             AdresseIP = adresseIP;
+            Thread.Sleep(100);
             this._threadClient = new Thread(new ThreadStart(Connexion));
             this._threadClient.Start();
+
+            // allocation à la classe des ces évènements
+            EventGameReady += IOGames_EventGameReady;
         }
 
         #region assesseur
@@ -45,8 +50,22 @@ namespace ClientServeur
             {
                 if (!Envoi(this.TcpClient,MessageReseau.init))
                 {
-                    StopAll();
+                    Deconnexion = true;
                     //throw (new ApplicationException("La connexion vers le serveur est impossible./nDéclaration de la connexion en lecture seule."));
+                }
+                else
+                {
+                    //initialisation du jeux au niveau donnée
+                    object init = InitGameReception(TcpClient);
+                    if ( init is GameIOData )
+                    {
+                        Donnee = init;
+                        GameReady = true;
+                    }
+                    else
+                    {
+                        Deconnexion = true;
+                    }
                 }
                 ThreadClientLoop();
             }
@@ -81,14 +100,17 @@ namespace ClientServeur
                         case "gameReady":
                             if ( !GameReady )
                             {
-                                EventGameReady += IOGames_EventGameReady;
                                 GameReady = true;
                             }
                             break;
                         case "stop":
+                            Envoi(TcpClient, MessageReseau.iCopy);
                             stop = !StopAll();
                             break;
                     }
+                    buffer = new byte[1024];
+
+                    message = string.Empty;
                 }
             }
             catch (ArgumentNullException aNE)

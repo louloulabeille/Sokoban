@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
 namespace ClientServeur
@@ -16,6 +17,7 @@ namespace ClientServeur
         private bool _initialisation; 
         private bool _wait;
         private int _port;
+        private object _donnee;
         
         private TcpClient _tcpClient;
 
@@ -26,16 +28,21 @@ namespace ClientServeur
         /// </summary>
         public IOGame()
         {
-            EndGame = false;
-            WinGame = false;
-            Deconnexion = false;
-            GameReady = false;
-            Wait = false;
+            this._endGame = false;
+            this._winGame = false;
+            this._deconnexion = false;
+            this._gameReady = false;
+            this._wait = false;
+            this._initialisation = false;
+
         }
         public IOGame(int port)
             : base()
         {
             Port = port;
+            this.EventDeconnexion += IOGames_EventDeconnexion;
+            this.EventEndGame += IOGames_EventEndGame;
+            this.EventGameReady += IOGames_EventGameReady;
         }
 
         #endregion
@@ -83,7 +90,7 @@ namespace ClientServeur
             get => _gameReady;
             set
             {
-                if ( value ) OnEventGameReady(this, new EventArgsInitialisation(value));
+                if ( value ) OnEventGameReady(this, new EventArgs());
                 _gameReady = value;
             }
         }
@@ -107,10 +114,18 @@ namespace ClientServeur
             }
         }
 
-        public bool Initialisation { get => _initialisation; set => _initialisation = value; }
+        public bool Initialisation 
+        { 
+            get => _initialisation;
+            set
+            {
+                if (!value) OnEventDeconnexion(this, new EventArgs());
+                _initialisation = value;
+            }
+        }
 
         public TcpClient TcpClient { get => _tcpClient; set => _tcpClient = value; }
-        
+        public object Donnee { get => _donnee; set => _donnee = value; }
 
         #endregion
 
@@ -128,9 +143,21 @@ namespace ClientServeur
         public event EventHandler EventDeconnexion;
         public event EventHandler EventGameReady;
         public event EventHandler EventWait;
+        public event EventHandler EventInitialisation;
         #endregion
 
         #region methode des events de lancement
+        
+        /// <summary>
+        /// evênement sur initialisation des jeux
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnEventInitialisation ( object sender, EventArgsInitialisation e )
+        {
+            EventHandler handler = EventInitialisation;
+            if (handler != null) handler(sender, e);
+        }
         /// <summary>
         /// creation de EventEndGame
         /// </summary>
@@ -211,7 +238,10 @@ namespace ClientServeur
         {
             if ( Envoi(TcpClient, MessageReseau.stop) )
             {
-                StopAll();
+                int nbOctet;
+                byte[] retour;
+                retour = Lecture(TcpClient, out nbOctet);
+                if (retour.Length != 0) StopAll();
             }
             StopAll();
             Deconnexion = false;
@@ -227,7 +257,10 @@ namespace ClientServeur
         {
             if (Envoi(TcpClient, MessageReseau.stop))
             {
-                StopAll();
+                int nbOctet;
+                byte[] retour;
+                retour = Lecture(TcpClient, out nbOctet);
+                if ( retour.Length != 0) StopAll();
             }
             StopAll();
         }
@@ -246,7 +279,6 @@ namespace ClientServeur
 
         public void Arret()
         {
-            this.EventDeconnexion += IOGames_EventDeconnexion;
             Deconnexion = true;
         }
 
@@ -294,6 +326,24 @@ namespace ClientServeur
             {
                 return false;
             }
+        }
+
+
+        /// <summary>
+        /// méthode initialisation
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
+        protected void InitGame ( TcpClient client, object donne )
+        {
+            BinaryFormatter bF = new BinaryFormatter();
+            bF.Serialize(client.GetStream(), donne);
+        }
+
+        protected object InitGameReception(TcpClient client)
+        {
+            BinaryFormatter bF = new BinaryFormatter();
+            return bF.Deserialize(client.GetStream());
         }
 
         #endregion
