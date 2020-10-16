@@ -7,44 +7,59 @@ using System.Text;
 using Sokoban;
 using System.Windows.Forms;
 using Utilitaires;
+using System.IO;
 
 namespace AffichageGame
 {
+    
     public partial class AffichageGraphique : Form, IAfficher
     {
+        public static Map map;
         public AffichageGraphique(Map map)
         {
            InitializeComponent();
-            this.Afficher(map);
-            wait(map);
+            AffichageGraphique.map = map;
+           this.Afficher(map);
+            
         }
+ 
 
-        public void wait(Map map)
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            while (true)
-            {
-                
-                //map = Map.OnMove(map);
-            }
-        }
 
+            AffichageGraphique.map = Map.OnMove(AffichageGraphique.map, char.Parse(e.KeyChar.ToString()));
+            this.Afficher(AffichageGraphique.map);
+        }
         public void Afficher(Map map)
         {
             this.Controls.Clear();
-            foreach (var item in map)
+            int c = 0;
+            for (int i = 0; i < AffichageGraphique.map.Count; i++)
             {
+                int x = i - (AffichageGraphique.map.Taille * c);
+
+                if ((i+1) % AffichageGraphique.map.Taille == 0)
+                {
+                    c++;
+                }
+                
                 PictureBox bouton = new PictureBox();
-                bouton.Size = new Size(50 , 50);
-                if (item is Personnage)
+                bouton.Size = new Size(50, 50);
+                if (AffichageGraphique.map[i] is Personnage)
                 {
                     bouton.Name = "Name_Personnage";
                     bouton.BackColor = Color.Blue;
                 }
-                else if (item is Caisse) { bouton.BackColor = Color.Green; }
-                else if (item is Mur) { bouton.BackColor = Color.Black; }
-                else if (item is Emplacement) { bouton.BackColor = Color.HotPink; }
-                //else if (item is Elements) { bouton.BackColor = Color.Chartreuse; }
-                bouton.Location = new Point(item.Y * 50, item.X *50);
+                
+                    
+                else if (AffichageGraphique.map[i] is Caisse) { bouton.BackColor = Color.Green; }
+                else if (AffichageGraphique.map[i] is Mur) { bouton.BackColor = Color.Black; }
+                else if (AffichageGraphique.map[i] is Emplacement) { bouton.BackColor = Color.HotPink; }
+                else { bouton.BackColor = Color.SaddleBrown; }
+                bouton.Location = new Point( x* 50,  c*50);
+                bouton.BringToFront();
+                bouton.BringToFront();
+                bouton.BringToFront();
                 Controls.Add(bouton);
             }
         }

@@ -94,7 +94,7 @@ namespace Sokoban
             return this;
         }
 
-                public static Map OnMove(Map map)
+        public static Map OnMove(Map map, char key)
         {
             Personnage d = new Personnage();
             foreach (Elements e in map)
@@ -104,16 +104,16 @@ namespace Sokoban
                     d = e as Personnage;
                 }              
             }
-            map = returnMove(map, d);
+            map = returnMove(map, d, key);
             return map;
         }
 
-        public static Map returnMove(Map x, Personnage p)
+        public static Map returnMove(Map x, Personnage p, char key)
         {
             int pos = x.IndexOf(p);
-            switch (Console.ReadKey(true).Key)
+            switch (key)
             {
-                case ConsoleKey.LeftArrow:
+                case 'q':
                     
                     if (IsMoveOk(x[pos - 1]) == "Elements")
                     {
@@ -212,7 +212,7 @@ namespace Sokoban
                     }
                     break;
                     
-                case ConsoleKey.UpArrow:
+                case 'z':
                     if (IsMoveOk(x[pos - x.Taille]) == "Elements")
                     {
                         if (p.OnEmplacement)
@@ -310,7 +310,7 @@ namespace Sokoban
                     }
                     break;
 
-                case ConsoleKey.RightArrow:
+                case 'd':
                     if (IsMoveOk(x[pos + 1]) == "Elements")
                     {
                         if (p.OnEmplacement)
@@ -325,7 +325,6 @@ namespace Sokoban
                         {
                             x[pos] = x[pos + 1];
                             x[pos + 1] = p;
-                            x[pos + 1].Y--;
                             
                         }
                         p.Y++;                    
@@ -402,7 +401,7 @@ namespace Sokoban
                     }
                     break;
 
-                case ConsoleKey.DownArrow:
+                case 's':
                     if (IsMoveOk(x[pos + x.Taille]) == "Elements")
                     {
                         if (p.OnEmplacement)
@@ -412,15 +411,14 @@ namespace Sokoban
                             x[x.FindIndex(ind => ind.Equals(p))] = news;
                             x[pos] = news;
                             x[pos + x.Taille] = p;
-                            p.X++;
                         }
                         else
                         {
                             x[pos + x.Taille].X--;
-                            x[pos] = x[pos + x.Taille];
-                            p.X++;
-                            x[pos + x.Taille] = p;
+                            x[pos] = x[pos + x.Taille];                           
+                            x[pos + x.Taille] = p;                            
                         }
+                        p.X++;
                     }
                     else if (x[pos + x.Taille] is Emplacement)
                     {

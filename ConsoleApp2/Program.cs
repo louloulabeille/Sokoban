@@ -22,7 +22,7 @@ namespace ConsoleApp2
             ILoad obj = new LoadFromTxt();
             Map obje = new Map();
             //IAfficher afficher = ;
-            Application.Run(new AffichageGraphique(obje.GetMapInit(di + "\\" + path, 2)));
+            Application.Run(new AffichageGraphique(obje.GetMapInit(di + "\\" + path, 1)));
 
 
         }
