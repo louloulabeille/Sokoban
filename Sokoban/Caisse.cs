@@ -22,7 +22,7 @@ namespace Sokoban
                 _x = value;
             }
         }
-
+ 
         public override int Y
         {
             get => _y;
