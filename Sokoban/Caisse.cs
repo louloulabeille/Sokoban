@@ -10,27 +10,28 @@ namespace Sokoban
         #endregion Champs privés
 
         #region propriétés 
-        public new int X
+        public override int X
         {
             get => _x;
             set
             {
-                if (this is Caisse && value != _x && value != 0)
+                if ( value != _x )
                 {
                     OnEventMoveCaisse(this, new EventArgs());
                 }
                 _x = value;
             }
         }
-
-        public new int Y
+ 
+        public override int Y
         {
             get => _y;
             set
             {
-                if (this is Caisse && value != _x && value != 0)
+                if ( value != this._y )
                 {
                     OnEventMoveCaisse(this, new EventArgs());
+                    //this.EventMoveCaisse += Caisse.Caisse_EventMoveCaisse;
                 }
                 _y = value;
             }
@@ -46,6 +47,7 @@ namespace Sokoban
         {
             Content = '*';
             OnEmplacement = false;
+            this.EventMoveCaisse += Caisse.Caisse_EventMoveCaisse;
         }
         #endregion Constructeur
 
@@ -59,12 +61,10 @@ namespace Sokoban
         }
         #endregion Evenement
 
-        #region methode de event de comptage du nombre de mouvement des caisses
-        public void Elements_EventMoveCaisse(object sender, EventArgs e)
+        public static void Caisse_EventMoveCaisse(object sender, EventArgs e)
         {
             Caisse.nbMouvement++;
         }
-        #endregion
     }
 
 

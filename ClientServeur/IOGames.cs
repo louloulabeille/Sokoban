@@ -107,7 +107,10 @@ namespace ClientServeur
             }
         }
 
+        public bool Initialisation { get => _initialisation; set => _initialisation = value; }
+
         public TcpClient TcpClient { get => _tcpClient; set => _tcpClient = value; }
+        
 
         #endregion
 
@@ -220,7 +223,7 @@ namespace ClientServeur
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void Client_EventEndGame(object sender, EventArgs e)
+        public void IOGames_EventEndGame(object sender, EventArgs e)
         {
             if (Envoi(TcpClient, MessageReseau.stop))
             {

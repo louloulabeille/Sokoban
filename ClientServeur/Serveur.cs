@@ -51,7 +51,7 @@ namespace ClientServeur
                         case "gameReady":
                             if ( !GameReady )
                             {
-                                EventGameReady += OnEventGameReady;
+                                EventGameReady += IOGames_EventGameReady;
                                 GameReady = true;
                             } 
                             break;
