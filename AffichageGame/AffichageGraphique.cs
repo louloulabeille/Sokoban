@@ -18,7 +18,9 @@ namespace AffichageGame
         public AffichageGraphique(Map map)
         {
            InitializeComponent();
-           AffichageGraphique.mapActuel = map;
+            this.WindowState = FormWindowState.Maximized;
+
+            AffichageGraphique.mapActuel = map;
            this.Afficher(map);
         }
  
@@ -33,25 +35,42 @@ namespace AffichageGame
         }
         public void Afficher(Map map)
         {
-            //Controls.Remove(this.Controls.Find("p", false)[0]);
+            string path = Resource.File;
+            string cd = Directory.GetCurrentDirectory();
+            DirectoryInfo di = new DirectoryInfo(cd);
+            di = di.Parent.Parent.Parent.Parent;
+
             int c = 0;
             for (int i = 0; i < map.Count; i++)
             {             
                 if (i % map.Taille == 0 && i!=0) c++;
                 int x = i - (mapActuel.Taille * c);
-                //Controls.Remove(Controls["p"]);
                 PictureBox bouton = new PictureBox();
                 bouton.Size = new Size(50, 50);
                 if (map[i] is Personnage)
                 {
                     bouton.Name = "p";
-                    bouton.BackColor = Color.Blue;
+                    Image image = Image.FromFile(di + "/personnage.png");
+                    image = new Bitmap(image, 50, 50);
+                    bouton.Image = image;
                 }            
-                    
-                else if (map[i] is Caisse) { bouton.BackColor = Color.Green; }
-                else if (map[i] is Mur) { bouton.BackColor = Color.Black; }
-                else if (map[i] is Emplacement) { bouton.BackColor = Color.HotPink; }
-                else { bouton.BackColor = Color.SaddleBrown; }
+
+                else if (map[i] is Caisse) {
+                    Image image = Image.FromFile(di + "/trophy.png");
+                    image = new Bitmap(image, 50, 50);
+                    bouton.Image = image;
+                }
+                else if (map[i] is Mur) {
+                    Image image = Image.FromFile(di + "/cactus.png");
+                    image = new Bitmap(image, 50, 50);
+                    bouton.Image = image;
+                }
+                else if (map[i] is Emplacement) {
+                    Image image = Image.FromFile(di + "/terre.png");
+                    image = new Bitmap(image, 50, 50);
+                    bouton.Image = image;
+                }
+                //else { bouton.BackColor = Color.SaddleBrown; }
                 bouton.Location = new Point( x* 50, c*50);
                 Controls.Add(bouton);
             }
@@ -59,6 +78,11 @@ namespace AffichageGame
 
         public void Afficher2(Map map)
         {
+            string path = Resource.File;
+            string cd = Directory.GetCurrentDirectory();
+            DirectoryInfo di = new DirectoryInfo(cd);
+            di = di.Parent.Parent.Parent.Parent;
+
             int c = 0;
             for (int i = 0; i < map.Count; i++)
             {
@@ -73,16 +97,48 @@ namespace AffichageGame
                     if (mapActuel[i] is Personnage)
                     {
                         bouton.Name = "p";
-                        bouton.BackColor = Color.Blue;
+                        Image image = Image.FromFile(di + "/personnage.png");
+                        image = new Bitmap(image, 50, 50);
+                        bouton.Image = image;
                     }
-                    else if (mapActuel[i] is Caisse) { bouton.BackColor = Color.Green; }
-                    else if (mapActuel[i] is Emplacement) { bouton.BackColor = Color.HotPink; }
-                    else { bouton.BackColor = Color.SaddleBrown; }
+                    else if (mapActuel[i] is Caisse)
+                    {
+                        Image image = Image.FromFile(di + "/trophy.png");
+                        image = new Bitmap(image, 50, 50);
+                        bouton.Image = image;
+                    }
+                    else if (mapActuel[i] is Emplacement) {
+                        Image image = Image.FromFile(di + "/terre.png");
+                        image = new Bitmap(image, 50, 50);
+                        bouton.Image = image;
+                    }
+                    //else { bouton.BackColor = Color.SaddleBrown; }
                     bouton.Location = new Point(x * 50, c * 50);
                     Controls.Add(bouton);
                 }
             }
         }
+
+        public int Taille(Map map)
+        {
+            string path = Resource.File;
+            string cd = Directory.GetCurrentDirectory();
+            DirectoryInfo di = new DirectoryInfo(cd);
+            di = di.Parent.Parent.Parent.Parent;
+
+            //int colonne = map.Colonne(di + "\\" + path, int.Parse(listBox1.SelectedItem.ToString()));
+            //int ligne = map.Ligne(di + "\\" + path, int.Parse(listBox1.SelectedItem.ToString()));
+
+            int colonne = map.Colonne(di + "\\" + path, 2);
+            int ligne = map.Ligne(di + "\\" + path, 2);
+
+
+            int taille;
+            if (colonne >= ligne) { taille = colonne; }
+            else { taille = ligne; }
+            return taille;
+        }
+
         private void AffichageGraphique_Load(object sender, EventArgs e)
         {
 

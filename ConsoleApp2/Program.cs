@@ -30,13 +30,7 @@ namespace ConsoleApp2
                 afficher.Afficher(obje);
                 obje = Map.OnMove(obje);
             }*/
-
-
         }
-
         //Serveur s = new Serveur();
-    }
-    
-   
-    
+    }    
 }
