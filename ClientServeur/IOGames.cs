@@ -152,10 +152,7 @@ namespace ClientsServeur
         /// </summary>
         public GameIOData DonneeAffichage 
         {
-            get
-            {
-                return _donneeAffichage;
-            }
+            get => _donneeAffichage;
             set => _donneeAffichage = value; }
 
         #endregion

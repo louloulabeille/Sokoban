@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace ClientsServeur
@@ -124,7 +125,10 @@ namespace ClientsServeur
         /// <param name="e"></param>
         public void IOGames_EventEndGame(object sender, EventArgs e)
         {
+            //Envoi(TcpClient, MessageReseau.iCopy);
             Envoi(TcpClient, MessageReseau.reStart);
+            
+            Debug.WriteLine($"Dans l'event :{MessageReseau.reStart}");
         }
 
         #endregion

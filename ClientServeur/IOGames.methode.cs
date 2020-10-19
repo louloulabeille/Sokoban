@@ -98,13 +98,13 @@ namespace ClientsServeur
         /// <returns></returns>
         public bool ChargementData()
         {
-            while (this.Donnee == null) { };
+            while (this._donnee == null) { };
             return true;
         }
 
         public bool ChargementDataAffichage()
         {
-            while (this.DonneeAffichage == null) { };
+            while (this._donneeAffichage == null) { };
             return true;
         }
 
