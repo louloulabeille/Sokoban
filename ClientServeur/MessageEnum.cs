@@ -11,9 +11,8 @@ namespace ClientsServeur
         wait,
         error,
         deconnexion,
-        debutMessage,
-        finMessage,
         gameReady,
         stop,
+        reStart,
     }
 }
