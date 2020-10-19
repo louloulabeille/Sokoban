@@ -31,6 +31,7 @@ namespace AffichageGame
             x = mapActuel.Clone() as Map;
             mapActuel = Map.OnMove(mapActuel, char.Parse(e.KeyChar.ToString()));
             this.Afficher2(x);
+            if(Map.Win(x)) MessageBox.Show("Win");
         }
         public void Afficher(Map map)
         {
