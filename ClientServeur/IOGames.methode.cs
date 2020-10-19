@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
@@ -37,6 +38,9 @@ namespace ClientsServeur
             return true;
         }
 
+        /// <summary>
+        /// méthode d'arret
+        /// </summary>
         public void Arret()
         {
             Deconnexion = true;
@@ -98,12 +102,18 @@ namespace ClientsServeur
             return true;
         }
 
+        public bool ChargementDataAffichage()
+        {
+            while (this.DonneeAffichage == null) { };
+            return true;
+        }
+
         /// <summary>
         /// méthode initialisation
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        protected void InitGame(TcpClient client, object donne)
+        protected void EnvoiData(TcpClient client, object donne)
         {
             BinaryFormatter bF = new BinaryFormatter();
             bF.Serialize(client.GetStream(), donne);
@@ -114,11 +124,35 @@ namespace ClientsServeur
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        protected object InitGameReception(TcpClient client)
+        protected object LectureData(TcpClient client)
         {
             BinaryFormatter bF = new BinaryFormatter();
             return bF.Deserialize(client.GetStream());
         }
+
+        public void ReStartGame ()
+        {
+            this.EndGame = true; //-> levé de event EndGame
+        }
+
+        /// <summary>
+        ///  méthode pour restart la partie
+        /// </summary>
+        /// /// <param name="Data">classe GameIOData qui renferme les informations de la partie</param>
+        /// <returns></returns>
+        protected virtual void ReStart()
+        {
+            this.GameReady = false;
+            object bufferData = LectureData(TcpClient); //->retour des data de l'autre partie pour l'affichage
+            this.DonneeAffichage = bufferData is GameIOData b ? b : null;
+            EnvoiData(TcpClient, this.Donnee);  //->envoi des data pour l'affichage sur l'autre poste
+            bufferData = LectureData(TcpClient);    //-> lecture des data pour le redémarrage
+            this.Donnee = bufferData is GameIOData c ? c : null;
+
+            this.EndGame = false;
+            //Debug.WriteLine(this.DonneeAffichage.ToString());
+        }
+
         #endregion
 
     }

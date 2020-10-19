@@ -15,10 +15,11 @@ namespace ClientsServeur
         private bool _winGame;  // gère si une partie est gagnée
         private bool _deconnexion;  // gère la déconnexion
         private bool _gameReady;
-        private bool _initialisation; 
+        private bool _initialisation;
         private bool _wait;
         private int _port;
-        private object _donnee;
+        private GameIOData _donnee; // correspond aux données initiale de la partie
+        private GameIOData _donneeAffichage;    // correspond aux données de qui sont affiché en fin de partie
         private TcpClient _tcpClient;
 
         #region constructeur
@@ -144,7 +145,20 @@ namespace ClientsServeur
         }
 
         public TcpClient TcpClient { get => _tcpClient; set => _tcpClient = value; }
-        public object Donnee { get => _donnee; set => _donnee = value; }
+        public GameIOData Donnee { get => _donnee; set => _donnee = value; }
+        /// <summary>
+        /// Attention le get DonneeAffichage
+        /// renvoie la valeur et met dans l'object la valeur Null
+        /// </summary>
+        public GameIOData DonneeAffichage 
+        {
+            get
+            {
+                GameIOData inter = _donneeAffichage;
+                _donneeAffichage = null;
+                return inter;
+            }
+            set => _donneeAffichage = value; }
 
         #endregion
 

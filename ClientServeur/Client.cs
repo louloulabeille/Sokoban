@@ -17,7 +17,6 @@ namespace ClientsServeur
         private Thread _threadClient;
         private IPAddress _adresseIP;       // adresse ip du serveur
 
-
         #region constructeur
         /// <summary>
         /// intialisation du serveur et lancement
@@ -26,7 +25,6 @@ namespace ClientsServeur
             : base(port)
         {
             AdresseIP = adresseIP;
-            Thread.Sleep(1000);
             this._threadClient = new Thread(new ThreadStart(Connexion));
             this._threadClient.Start();
 
@@ -58,10 +56,10 @@ namespace ClientsServeur
                 else
                 {
                     //initialisation du jeux au niveau donnée
-                    object init = InitGameReception(TcpClient);
-                    if ( init is GameIOData )
+                    object init = LectureData(TcpClient);
+                    if ( init is GameIOData dataGameIOData )
                     {
-                        Donnee = init;
+                        Donnee = dataGameIOData;
                         GameReady = true;
                     }
                     else
@@ -100,18 +98,17 @@ namespace ClientsServeur
                     switch(message)
                     {
                         case "gameReady":
-                            if ( !GameReady )
-                            {
-                                GameReady = true;
-                            }
+                            if ( !GameReady ) { GameReady = true;}
                             break;
                         case "stop":
-                            Envoi(TcpClient, MessageReseau.iCopy);
+                            //Envoi(TcpClient, MessageReseau.iCopy);
                             stop = !StopAll();
                             break;
+                        case "reStart":
+                            if (!this.EndGame) { this.EndGame = true; }
+                            ReStart();
+                            break;
                     }
-                    buffer = new byte[1024];
-                    message = string.Empty;
                 }
             }
             catch (ArgumentNullException aNE)
@@ -153,9 +150,5 @@ namespace ClientsServeur
 
         #endregion
 
-        #region method des event
-
-
-        #endregion
     }
 }

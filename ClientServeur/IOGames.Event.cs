@@ -117,22 +117,16 @@ namespace ClientsServeur
         }
 
         /// <summary>
-        /// gestion de event deconnexion ou connexion impossible
-        /// on refait 5 tentatives
+        /// gestion quand un des 2 utilisateurs
+        /// ne peut plus faire de mouvments
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         public void IOGames_EventEndGame(object sender, EventArgs e)
         {
-            if (Envoi(TcpClient, MessageReseau.stop))
-            {
-                int nbOctet;
-                byte[] retour;
-                retour = Lecture(TcpClient, out nbOctet);
-                if (retour.Length != 0) StopAll();
-            }
-            StopAll();
+            Envoi(TcpClient, MessageReseau.reStart);
         }
+
         #endregion
 
     }

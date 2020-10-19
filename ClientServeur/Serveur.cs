@@ -51,7 +51,6 @@ namespace ClientsServeur
             {
                 this._socket.Start();   // lancement de l'écoute
                 bool stop = true;
-                Debug.WriteLine( this.Donnee.ToString());
 
                 while (stop)
                 {
@@ -72,15 +71,19 @@ namespace ClientsServeur
                             if ( !GameReady ) GameReady = true;
                             break;
                         case "stop":
-                            Envoi(this.TcpClient, MessageReseau.iCopy);
+                            //Envoi(this.TcpClient, MessageReseau.iCopy);
                             stop = !StopAll();
                             break;
                         case "iCopy":
                             break;
                         case "init":
                             /// traitement initialisation de la partie
-                            InitGame(TcpClient, this.Donnee);
-                            //Debug.WriteLine("Connexion du client ok.");
+                            EnvoiData(TcpClient, this.Donnee);
+                            break;
+                        case "reStart":
+                            ///traitement de la vue pour initialiser la vue
+                            if (!this.EndGame) { this.EndGame = true; }
+                            ReStart();
                             break;
                     }
                 }
@@ -134,6 +137,20 @@ namespace ClientsServeur
             return true;
         }
 
+        /// <summary>
+        /// méthode coté serveur de la gestion du re-start
+        /// </summary>
+        /// <param name="data"> données de la partie coté serveur </param>
+        protected override void ReStart()
+        {
+            this.GameReady = false;
+            EnvoiData(TcpClient, this.Donnee);
+            object buffer =  LectureData(TcpClient);
+            this.DonneeAffichage = buffer is GameIOData b ? b : null;
+            EnvoiData(TcpClient, this.Donnee);
+
+            this.EndGame = false;
+        }
         #endregion
     }
 }
