@@ -8,7 +8,6 @@ using Sokoban;
 using System.Windows.Forms;
 using Utilitaires;
 using System.IO;
-using System.Linq;
 
 namespace AffichageGame
 {
@@ -29,47 +28,52 @@ namespace AffichageGame
         {
 
             AffichageGraphique.map = Map.OnMove(AffichageGraphique.map, char.Parse(e.KeyChar.ToString()));
-            this.AfficherDeplacement(AffichageGraphique.map);
+            this.Afficher2(AffichageGraphique.map);
         }
         public void Afficher(Map map)
         {
             this.Controls.Clear();
+            //Controls.Remove(this.Controls.Find("p", false)[0]);
             int c = 0;
             for (int i = 0; i < AffichageGraphique.map.Count; i++)
             {
                 int x = i - (AffichageGraphique.map.Taille * c);
+
                 if ((i+1) % AffichageGraphique.map.Taille == 0)
                 {
                     c++;
                 }
+                Controls.Remove(Controls["p"]);
                 PictureBox bouton = new PictureBox();
                 bouton.Size = new Size(50, 50);
                 if (AffichageGraphique.map[i] is Personnage)
                 {
-                    bouton.Name = "Name_Personnage";
+                    bouton.Name = "p";
                     bouton.BackColor = Color.Blue;
-                }
+                }            
+                    
                 else if (AffichageGraphique.map[i] is Caisse) { bouton.BackColor = Color.Green; }
                 else if (AffichageGraphique.map[i] is Mur) { bouton.BackColor = Color.Black; }
                 else if (AffichageGraphique.map[i] is Emplacement) { bouton.BackColor = Color.HotPink; }
-                //else { bouton.BackColor = Color.SaddleBrown; }
-                bouton.Location = new Point( x* 50,  c*50);
-                
+                else { bouton.BackColor = Color.SaddleBrown; }
+                bouton.Location = new Point( x* 50, c*50);
                 Controls.Add(bouton);
             }
         }
 
-        public void AfficherDeplacement(Map map)
+        public void Afficher2(Map map)
         {
-            PictureBox pictureBox = new PictureBox();
-            var parent = this.FindForm();
-            var personnage = parent.Controls.Find("Name_Personnage", true).FirstOrDefault();
-            
-            
+            int c = 0;
+            for (int i = 0; i < AffichageGraphique.map.Count; i++)
+            {
+                int x = i - (AffichageGraphique.map.Taille * c);
+
+                if ((i + 1) % AffichageGraphique.map.Taille == 0)
+                {
+                    c++;
+                }
+            }
         }
-
-
-
         private void AffichageGraphique_Load(object sender, EventArgs e)
         {
 

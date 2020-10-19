@@ -4,8 +4,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Utilitaires;
 
-namespace ClientServeur
+namespace ClientsServeur
 {
     public class Serveur : IOGame
     {
@@ -19,13 +20,27 @@ namespace ClientServeur
         /// SocketType -> flue bi directionnel ne peut être que AddressFamily.InterNetwork et ProtocolType.Tcp
         /// ProtocolType -> type de connexion tcp
         /// </summary>
+        /// <param name="port"> port réseau d'écoute </param>
         public Serveur(int port)
             : base(port)    /// initialisation des paramètres au vert
         {
             _socket = new TcpListener(IPAddress.Any, Port);
             _threadServeur = new Thread(new ThreadStart(ThreadServeurLoop));
-            _threadServeur.IsBackground = true;
             this._threadServeur.Start();
+            
+        }
+        /// <summary>
+        /// idem que dessus
+        /// </summary>
+        /// <param name="port"> port réseau d'écoute </param>
+        /// <param name="data"> données envoyées pour initialisation de la partie </param>
+        public Serveur(int port, GameIOData data)
+            : base(port,data)    /// initialisation des paramètres au vert
+        {
+            _socket = new TcpListener(IPAddress.Any, Port);
+            _threadServeur = new Thread(new ThreadStart(ThreadServeurLoop));
+            this._threadServeur.Start();
+
         }
         #endregion
 
@@ -35,34 +50,37 @@ namespace ClientServeur
             try
             {
                 this._socket.Start();   // lancement de l'écoute
-                byte[] buffer = new byte[1024];
-                int nbOctet;
-                StringBuilder sB = new StringBuilder();
                 bool stop = true;
+                Debug.WriteLine( this.Donnee.ToString());
 
                 while (stop)
                 {
+                    byte[] buffer = new byte[1024];
+                    int nbOctet;
                     string message;
-                    this.TcpClient = this._socket.AcceptTcpClient(); // attente d'une connexion le traitement s'arrete
+                    StringBuilder sB = new StringBuilder();
+                    
+                    if (this.TcpClient == null)
+                    {
+                        this.TcpClient = this._socket.AcceptTcpClient(); // attente d'une connexion le traitement s'arrete
+                    }
                     buffer = Lecture(this.TcpClient, out nbOctet);
                     message = sB.AppendFormat("{0}", Encoding.UTF8.GetString(buffer, 0, nbOctet)).ToString();
                     switch (message)
                     {
                         case "gameReady":
-                            if ( !GameReady )
-                            {
-                                EventGameReady += IOGames_EventGameReady;
-                                GameReady = true;
-                            } 
+                            if ( !GameReady ) GameReady = true;
                             break;
                         case "stop":
+                            Envoi(this.TcpClient, MessageReseau.iCopy);
                             stop = !StopAll();
                             break;
                         case "iCopy":
                             break;
                         case "init":
-
-                            Debug.WriteLine("Connexion du client ok.");
+                            /// traitement initialisation de la partie
+                            InitGame(TcpClient, this.Donnee);
+                            //Debug.WriteLine("Connexion du client ok.");
                             break;
                     }
                 }
@@ -104,6 +122,11 @@ namespace ClientServeur
             }
         }
 
+        /// <summary>
+        /// méthode d'arret pour le serveur 
+        /// ferme le socket et TcpClient
+        /// </summary>
+        /// <returns></returns>
         protected override bool StopAll()
         {
             this.TcpClient.Close();

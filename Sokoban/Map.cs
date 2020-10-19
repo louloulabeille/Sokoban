@@ -94,409 +94,365 @@ namespace Sokoban
             return this;
         }
 
-        public static Map OnMove(Map map, char key)
+        public static Map OnMove(Map map, char key = '!')
         {
-            Personnage d = new Personnage();
-            foreach (Elements e in map)
+            Personnage personnage = new Personnage();
+            foreach (Elements elem in map)
             {
-                if(e is Personnage)
-                {
-                    d = e as Personnage;
-                }              
+                if(elem is Personnage) personnage = elem as Personnage;            
             }
-            map = returnMove(map, d, key);
-            return map;
+            return returnMove(map, personnage, key);
         }
 
         public static Map returnMove(Map x, Personnage p, char key)
         {
             int pos = x.IndexOf(p);
-            switch (key)
+            if (key != '!')
             {
-                case 'q':
-                    
-                    if (IsMoveOk(x[pos - 1]) == "Elements")
-                    {
-                        if (p.OnEmplacement)
-                        {
-                            p.OnEmplacement = false;
-                            Emplacement news = new Emplacement(p.X, p.Y);
-                            x[x.FindIndex(ind => ind.Equals(p))] = news;
-                            x[pos] = news;
-                            x[pos - 1] = p;
-                            p.Y--;
-                        }
-                        else
-                        {
-                            x[pos] = x[pos - 1];
-                            x[pos - 1] = p;
-                            x[pos - 1].Y++;
-                            p.Y--;
-                        }
-                    }
-                    else if(x[pos - 1] is Emplacement)
-                    {
-                        if (p.OnEmplacement)
-                        {
-                            Emplacement news = new Emplacement(p.X, p.Y);
-                            x[x.FindIndex(ind => ind.Equals(p))] = news;
-                            x[pos] = news;
-                            x[pos - 1] = p;
-                            p.Y--;
-                        }
-                        else
-                        {
-                            p.OnEmplacement = true;
-                            x[pos] = new Elements(p.X, p.Y);
-                            x[pos - 1] = p;
-                            p.Y--;
-                        }
-                    }
-                    else if (x[pos - 1] is Caisse c)
-                    {                        
-                        if (IsMoveOk(x[pos - 2]) == "Elements")
-                        {
-                            if (p.OnEmplacement)
-                            {
-                                p.OnEmplacement = false;
-                                Emplacement news = new Emplacement(p.X, p.Y);
-                                x[x.FindIndex(ind => ind.Equals(p))] = news;
-                                x[pos] = news;
-                                x[pos - 1] = p;
-                                x[pos - 2] = c;                               
-                            }
-                            else
-                            {
-                                x[pos - 2].Y += 2;
-                                x[pos] = x[pos - 2];
-                                x[pos - 1].Y--;
-                                x[pos - 2] = x[pos - 1];
-                                x[pos - 1] = p;
-                                x[pos - 1].Y++;
-                            }
-                            if (c.OnEmplacement)
-                            {
-                                p.OnEmplacement = true;
-                                c.OnEmplacement = false;
-                            }
-                            p.Y--;
-                            c.Y--;
+                switch (key)
+                {
+                    case 'q':
+                        x = LeftMove(x, p);
+                        break;
+                    case 'z':
+                        x = UpMove(x, p);
+                        break;
 
+                    case 'd':
+                        x = RightMove(x, p);
+                        break;
 
-                        }
-                        else if (x[pos - 2] is Emplacement e)
-                        {                            
-                            if (p.OnEmplacement)
-                            {
-                                p.OnEmplacement = false;                             
-                                Emplacement news = new Emplacement(p.X, p.Y);
-                                x[x.FindIndex(ind => ind.Equals(p))] = news;
-                                x[pos] = news;
-                                x[pos - 1] = p;
-                                x[pos - 2] = c;
-                            }
-                            else
-                            {
-                                x[x.FindIndex(ind => ind.Equals(c))] = p;
-                                x[x.FindIndex(ind => ind.Equals(e))] = c;
-                                x[x.FindIndex(ind => ind.Equals(p)) + 1] = new Elements(e.X, e.Y + 2); ;                             
-                            }
-                            if (c.OnEmplacement)
-                            {
-                                p.OnEmplacement = true;
-                            }
-                            c.OnEmplacement = true;
-                            c.Y--;
-                            p.Y--;
-                        }                 
-                    }
-                    break;
-                    
-                case 'z':
-                    if (IsMoveOk(x[pos - x.Taille]) == "Elements")
-                    {
-                        if (p.OnEmplacement)
-                        {
-                            p.OnEmplacement = false;
-                            Emplacement news = new Emplacement(p.X, p.Y);
-                            x[x.FindIndex(ind => ind.Equals(p))] = news;
-                            x[pos] = news;
-                            x[pos - x.Taille] = p;
-                            p.X--;
-                        }
-                        else
-                        {
-                            x[pos - x.Taille].X++;
-                            x[pos] = x[pos - x.Taille];
-                            p.X--;
-                            x[pos - x.Taille] = p;
-                        }
-                    }
-                    else if (x[pos - x.Taille] is Emplacement)
-                    {
-                        if (p.OnEmplacement)
-                        {
-                            Emplacement news = new Emplacement(p.X, p.Y);
-                            x[x.FindIndex(ind => ind.Equals(p))] = news;
-                            x[pos] = news;
-                            x[pos - x.Taille] = p;
-                            p.X--;
-                        }
-                        else
-                        {
-                            p.OnEmplacement = true;
-                            x[pos] = new Elements(p.X, p.Y);
-                            x[pos - x.Taille] = p;
-                            p.X--;
-                        }
-                    }
-                    else if (x[pos - x.Taille] is Caisse c)
-                    {
-                        if (IsMoveOk(x[pos - (x.Taille * 2)]) == "Elements")
-                        {
-                            if (p.OnEmplacement)
-                            {
-                                p.OnEmplacement = false;
-                                Emplacement news = new Emplacement(p.X, p.Y);
-                                x[x.FindIndex(ind => ind.Equals(p))] = news;
-                                x[pos] = news;
-                                x[x.FindIndex(ind => ind.Equals(c))] = p;
-                                x[pos - (2*x.Taille)] = c;
-                                p.X--;
-                            }
-                            else
-                            {
-                                x[pos - (x.Taille * 2)].X += 2;
-                                x[pos] = x[pos - (x.Taille * 2)];
-                                x[pos - x.Taille].X--;
-                                x[pos - (x.Taille * 2)] = x[pos - x.Taille];
-                                p.X--;
-                                x[pos - x.Taille] = p;
-                            }
-                            if (c.OnEmplacement)
-                            {
-                                p.OnEmplacement = true;
-                                c.OnEmplacement = false;
-                            }
+                    case 's':
+                        DownMove(x, p);
+                        break;
+                }
+            }
+            else
+            {
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.LeftArrow:
+                        x = LeftMove(x, p);
+                        break;
+                    case ConsoleKey.UpArrow:
+                        x = UpMove(x, p);
+                        break;
 
-                        }
-                        else if (x[pos - (x.Taille * 2)] is Emplacement e)
-                        {
-                            if (p.OnEmplacement)
-                            {
-                                p.OnEmplacement = false;
-                                Emplacement news = new Emplacement(p.X, p.Y);
-                                x[x.FindIndex(ind => ind.Equals(p))] = news;
-                                x[pos] = news;
-                                x[x.FindIndex(ind => ind.Equals(c))] = p;
-                                x[x.FindIndex(ind => ind.Equals(e))] = c;
-                                p.X--;
-                                c.X--;
-                            }
-                            else
-                            {                                                
-                                x[x.FindIndex(ind => ind.Equals(p))] = new Elements(p.X, p.Y);
-                                x[x.FindIndex(ind => ind.Equals(c))] = p;
-                                x[x.FindIndex(ind => ind.Equals(e))] = c;
-                                c.X--;
-                                p.X--;
-                            }
-                            if (c.OnEmplacement)
-                            {
-                                p.OnEmplacement = true;
-                            }
-                            c.OnEmplacement = true;
-                        }
-                    }
-                    break;
+                    case ConsoleKey.RightArrow:
+                        x = RightMove(x, p);
+                        break;
 
-                case 'd':
-                    if (IsMoveOk(x[pos + 1]) == "Elements")
-                    {
-                        if (p.OnEmplacement)
-                        {
-                            p.OnEmplacement = false;
-                            Emplacement news = new Emplacement(p.X, p.Y);
-                            x[x.FindIndex(ind => ind.Equals(p))] = news;
-                            x[pos] = news;
-                            x[pos + 1] = p;
-                        }
-                        else
-                        {
-                            x[pos] = x[pos + 1];
-                            x[pos + 1] = p;
-                            
-                        }
-                        p.Y++;                    
-                    }
-                    else if (x[pos + 1] is Emplacement)
-                    {
-                        if (p.OnEmplacement)
-                        {
-                            Emplacement news = new Emplacement(p.X, p.Y);
-                            x[x.FindIndex(ind => ind.Equals(p))] = news;
-                            x[pos] = news;
-                            x[pos + 1] = p;
-                        }
-                        else
-                        {
-                            p.OnEmplacement = true;
-                            x[pos] = new Elements(p.X, p.Y);
-                            x[pos + 1] = p;                                              
-                        }
-                        p.Y++;
-                    }
-                    else if (x[pos +1] is Caisse c)
-                    {
-                        if (IsMoveOk(x[pos + 2]) == "Elements")
-                        {
-                            if (p.OnEmplacement)
-                            {
-                                p.OnEmplacement = false;
-                                Emplacement news = new Emplacement(p.X, p.Y);
-                                x[x.FindIndex(ind => ind.Equals(p))] = news;
-                                x[pos + 1] = p;
-                                x[pos + 2] = c;                               
-                            }
-                            else
-                            {
-                                x[pos + 2].Y -= 2;
-                                x[pos] = x[pos + 2];
-                                x[pos + 2] = x[pos + 1];
-                                x[pos + 1] = p;
-                            }
-                            if (c.OnEmplacement)
-                            {
-                                p.OnEmplacement = true;
-                                c.OnEmplacement = false;
-                            }
-                            p.Y++;
-                            c.Y++;
-                        }
-                        else if (x[pos+2] is Emplacement e)
-                        {
-                            if (p.OnEmplacement)
-                            {
-                                p.OnEmplacement = false;
-                                Emplacement news = new Emplacement(p.X, p.Y);
-                                x[x.FindIndex(ind => ind.Equals(p))] = news;
-                                x[pos] = news;
-                                x[pos + 1] = p;
-                                x[pos + 2] = c;                              
-                            }
-                            else
-                            {
-                                x[x.FindIndex(ind => ind.Equals(c))] = p;
-                                x[x.FindIndex(ind => ind.Equals(e))] = c;
-                                x[x.FindIndex(ind => ind.Equals(p))] = new Elements(p.X, p.Y); ;
-                            }
-                            if (c.OnEmplacement)
-                            {
-                                p.OnEmplacement = true;
-                            }
-                            c.OnEmplacement = true;
-                            p.Y++;
-                            c.Y++;
-                        }
-                    }
-                    break;
-
-                case 's':
-                    if (IsMoveOk(x[pos + x.Taille]) == "Elements")
-                    {
-                        if (p.OnEmplacement)
-                        {
-                            p.OnEmplacement = false;
-                            Emplacement news = new Emplacement(p.X, p.Y);
-                            x[x.FindIndex(ind => ind.Equals(p))] = news;
-                            x[pos] = news;
-                            x[pos + x.Taille] = p;
-                        }
-                        else
-                        {
-                            x[pos + x.Taille].X--;
-                            x[pos] = x[pos + x.Taille];                           
-                            x[pos + x.Taille] = p;                            
-                        }
-                        p.X++;
-                    }
-                    else if (x[pos + x.Taille] is Emplacement)
-                    {
-                        if (p.OnEmplacement)
-                        {
-                            Emplacement news = new Emplacement(p.X, p.Y);
-                            x[x.FindIndex(ind => ind.Equals(p))] = news;
-                            x[pos] = news;
-                            x[pos + x.Taille] = p;
-                        }
-                        else
-                        {
-                            p.OnEmplacement = true;
-                            x[pos] = new Elements(p.X, p.Y);
-                            x[pos + x.Taille] = p;
-                        }
-                        p.X++;
-                    }
-                    else if (x[pos + x.Taille] is Caisse c) 
-                    {
-                        if (IsMoveOk(x[pos + (x.Taille * 2)]) == "Elements")
-                        {
-                            if (p.OnEmplacement)
-                            {
-                                p.OnEmplacement = false;
-                                Emplacement news = new Emplacement(p.X, p.Y);
-                                x[x.FindIndex(ind => ind.Equals(p))] = news;
-                                x[pos] = news;
-                                x[x.FindIndex(ind => ind.Equals(c))] = p;
-                                x[pos + (2 * x.Taille)] = c;
-                            }
-                            else
-                            {
-                                x[pos + (x.Taille * 2)].X -= 2;
-                                x[pos] = x[pos + (x.Taille * 2)];
-                                x[pos + (x.Taille * 2)] = x[pos + x.Taille];
-                                x[pos + x.Taille] = p;
-                            }
-                            if (c.OnEmplacement)
-                            {
-                                p.OnEmplacement = true;
-                                c.OnEmplacement = false;
-                            }
-                            p.X++;
-                            c.X++;
-                        }
-                        else if (x[pos + (x.Taille * 2)] is Emplacement e)
-                        {
-                            if (p.OnEmplacement)
-                            {
-                                p.OnEmplacement = false;
-                                x[x.FindIndex(ind => ind.Equals(p))] = new Emplacement(p.X, p.Y);
-                                x[x.FindIndex(ind => ind.Equals(c))] = p;
-                                x[x.FindIndex(ind => ind.Equals(e))] = c;
-                            }
-                            else {
-                                x[x.FindIndex(ind => ind.Equals(c))] = p;
-                                x[x.FindIndex(ind => ind.Equals(e))] = c;
-                                x[x.FindIndex(ind => ind.Equals(p))] = new Elements(p.X, p.Y);
-                            }                          
-                            if (c.OnEmplacement)
-                            {
-                                p.OnEmplacement = true;
-                            }
-                            c.OnEmplacement = true;
-                            p.X++;
-                            c.X++;
-                        }                        
-                    }
-                    break;
+                    case ConsoleKey.DownArrow:
+                        DownMove(x, p);
+                        break;
+                }
             }
             return x;
         }
-        public static string IsMoveOk(Elements elem)
-        {
-            return elem.GetType().Name;
-        }
 
-        
+        public static Map LeftMove(Map x, Personnage p)
+        {
+            int pos = x.IndexOf(p);
+            if (x[pos - 1].GetType().Name == "Elements")
+            {
+                if (p.OnEmplacement)
+                {
+                    p.OnEmplacement = false;
+                    Emplacement news = new Emplacement(p.X, p.Y);
+                    x[x.FindIndex(ind => ind.Equals(p))] = news;
+                }
+                else x[x.FindIndex(ind => ind.Equals(p))] = x[pos - 1];
+
+                x[pos - 1] = p;
+                if (p.Y > 0) p.Y--;
+            }
+            else if (x[pos - 1] is Emplacement emp)
+            {
+                if (p.OnEmplacement) x[x.FindIndex(ind => ind.Equals(p))] = new Emplacement(p.X, p.Y);
+                else
+                {
+                    p.OnEmplacement = true;
+                    x[pos] = new Elements(p.X, p.Y);
+                }
+                x[x.FindIndex(ind => ind.Equals(emp))] = p;
+                if (p.Y > 0) p.Y--;
+            }
+            else if (x[pos - 1] is Caisse c)
+            {
+                if (x[pos - 2].GetType().Name == "Elements")
+                {
+                    if (p.OnEmplacement)
+                    {
+                        p.OnEmplacement = false;
+                        Emplacement news = new Emplacement(p.X, p.Y);
+                        x[x.FindIndex(ind => ind.Equals(p))] = news;
+                    }
+                    else
+                    {
+                        x[pos - 2].Y += 2;
+                        x[x.FindIndex(ind => ind.Equals(p))] = x[pos - 2];  
+                    }
+                    if (c.OnEmplacement)
+                    {
+                        p.OnEmplacement = true;
+                        c.OnEmplacement = false;
+                    }
+                    x[x.FindIndex(ind => ind.Equals(c))] = p;
+                    x[pos - 2] = c;
+                    
+                    if (p.Y > 0) p.Y--;
+                    if (c.Y > 0) c.Y--;
+                }
+                else if (x[pos - 2] is Emplacement e)
+                {
+                    if (p.OnEmplacement)
+                    {
+                        p.OnEmplacement = false;
+                        Emplacement news = new Emplacement(p.X, p.Y);
+                        x[x.FindIndex(ind => ind.Equals(p))] = news;
+                    }
+                    else x[x.FindIndex(ind => ind.Equals(p))] = new Elements(e.X, e.Y + 2); ;
+
+                    p.OnEmplacement = c.OnEmplacement;
+                    c.OnEmplacement = true;
+
+                    x[x.FindIndex(ind => ind.Equals(c))] = p;
+                    x[x.FindIndex(ind => ind.Equals(e))] = c;
+                    
+                    if (p.Y > 0) p.Y--;
+                    if (c.Y > 0) c.Y--;
+                }
+            }
+            return x;
+        }
+        public static Map UpMove(Map x, Personnage p)
+        {
+            int pos = x.IndexOf(p);
+            if (x[pos - x.Taille].GetType().Name == "Elements")
+            {
+                if (p.OnEmplacement)
+                {
+                    p.OnEmplacement = false;
+                    Emplacement news = new Emplacement(p.X, p.Y);
+                    x[x.FindIndex(ind => ind.Equals(p))] = news;
+                }
+                else
+                {
+                    x[pos - x.Taille].X++;
+                    x[x.FindIndex(ind => ind.Equals(p))] = x[pos - x.Taille];                
+                }
+                x[pos - x.Taille] = p;
+                if (p.X > 0) p.X--;
+            }
+            else if (x[pos - x.Taille] is Emplacement)
+            {
+                if (p.OnEmplacement) x[x.FindIndex(ind => ind.Equals(p))] = new Emplacement(p.X, p.Y);        
+                else
+                {
+                    p.OnEmplacement = true;
+                    x[pos] = new Elements(p.X, p.Y);
+                }
+
+                x[pos - x.Taille] = p;
+                if (p.X > 0) p.X--;
+            }
+            else if (x[pos - x.Taille] is Caisse c)
+            {
+                if (x[pos - (x.Taille * 2)].GetType().Name == "Elements" )
+                {
+                    if (p.OnEmplacement)
+                    {
+                        p.OnEmplacement = false;
+                        Emplacement news = new Emplacement(p.X, p.Y);
+                        x[x.FindIndex(ind => ind.Equals(p))] = news;
+                    }
+                    else
+                    {
+                        x[pos - (x.Taille * 2)].X += 2;
+                        x[x.FindIndex(ind => ind.Equals(p))] = x[pos - (x.Taille * 2)];
+                    }                  
+                    if (c.OnEmplacement)
+                    {
+                        p.OnEmplacement = true;
+                        c.OnEmplacement = false;
+                    }
+                    x[x.FindIndex(ind => ind.Equals(c))] = p;
+                    x[x.FindIndex(ind => ind.Equals(x[pos - (x.Taille * 2)]))] = c;
+                    
+                    if (p.X > 0) p.X--;
+                    if (c.X > 0) c.X--;
+                }
+                else if (x[pos - (x.Taille * 2)] is Emplacement e)
+                {
+                    if (p.OnEmplacement)
+                    {
+                        p.OnEmplacement = false;
+                        x[x.FindIndex(ind => ind.Equals(p))] = new Emplacement(p.X, p.Y);
+                    }
+                    else x[x.FindIndex(ind => ind.Equals(p))] = new Elements(p.X, p.Y);   
+
+                    x[x.FindIndex(ind => ind.Equals(c))] = p;
+                    x[x.FindIndex(ind => ind.Equals(e))] = c;
+
+                    p.OnEmplacement = c.OnEmplacement;
+                    c.OnEmplacement = true;
+
+                    if (p.X > 0) p.X--;
+                    if (c.X > 0) c.X--;
+                }
+            }
+            return x;
+        }
+        public static Map RightMove(Map x, Personnage p)
+        {
+            int pos = x.IndexOf(p);
+            if (x[pos + 1].GetType().Name == "Elements")
+            {
+                if (p.OnEmplacement)
+                {
+                    p.OnEmplacement = false;
+                    x[x.FindIndex(ind => ind.Equals(p))] = new Emplacement(p.X, p.Y);
+                }
+                else x[x.FindIndex(ind => ind.Equals(p))] = x[pos + 1]; 
+                x[pos + 1] = p;
+                if (p.Y < x.Taille) p.Y++;
+            }
+            else if (x[pos + 1] is Emplacement e)
+            {
+                if (p.OnEmplacement) x[x.FindIndex(ind => ind.Equals(p))] = new Emplacement(p.X, p.Y);
+                else
+                {
+                    p.OnEmplacement = true;
+                    x[pos] = new Elements(p.X, p.Y);
+                }
+
+                x[x.FindIndex(ind => ind.Equals(e))] = p;
+                if (p.Y < x.Taille) p.Y++;
+            }
+            else if (x[pos + 1] is Caisse c)
+            {
+                if (x[pos + 2].GetType().Name == "Elements")
+                {
+                    if (p.OnEmplacement)
+                    {
+                        p.OnEmplacement = false;
+                        Emplacement news = new Emplacement(p.X, p.Y);
+                        x[x.FindIndex(ind => ind.Equals(p))] = news;
+                    }
+                    else
+                    {
+                        x[pos + 2].Y -= 2;
+                        x[x.FindIndex(ind => ind.Equals(p))] = x[pos + 2];      
+                    }                  
+                    if (c.OnEmplacement)
+                    {
+                        p.OnEmplacement = true;
+                        c.OnEmplacement = false;
+                    }
+                    x[x.FindIndex(ind => ind.Equals(c))] = p;
+                    x[pos + 2] = c;
+
+                    if (p.Y < x.Taille) p.Y++;
+                    if (c.Y < x.Taille) c.Y++;
+                }
+                else if (x[pos + 2] is Emplacement emp)
+                {
+                    if (p.OnEmplacement)
+                    {
+                        p.OnEmplacement = false;
+                        x[x.FindIndex(ind => ind.Equals(p))] = new Emplacement(p.X, p.Y);                       
+                    }
+                    else x[x.FindIndex(ind => ind.Equals(p))] = new Elements(p.X, p.Y);
+                    
+                    x[x.FindIndex(ind => ind.Equals(c))] = p;
+                    x[x.FindIndex(ind => ind.Equals(emp))] = c;
+
+                    p.OnEmplacement = c.OnEmplacement;
+                    c.OnEmplacement = true;
+
+                    if (p.Y < x.Taille) p.Y++;
+                    if (c.Y < x.Taille) c.Y++;
+                }
+            }
+            return x;
+        }
+        public static Map DownMove(Map x, Personnage p)
+        {
+            int pos = x.IndexOf(p);
+            if (x[pos + x.Taille].GetType().Name == "Elements")
+            {
+                if (p.OnEmplacement)
+                {
+                    p.OnEmplacement = false;
+                    Emplacement news = new Emplacement(p.X, p.Y);
+                    x[x.FindIndex(ind => ind.Equals(p))] = news;
+                }
+                else x[pos] = x[pos + x.Taille];                                                          
+
+                x[pos + x.Taille] = p;
+                if (p.X < x.Taille) p.X++;
+            }
+            else if (x[pos + x.Taille] is Emplacement emp)
+            {
+                if (p.OnEmplacement)
+                {
+                    Emplacement news = new Emplacement(p.X, p.Y);
+                    x[x.FindIndex(ind => ind.Equals(p))] = news;
+                }
+                else
+                {
+                    p.OnEmplacement = true;
+                    x[pos] = new Elements(p.X, p.Y);
+                }
+                x[x.FindIndex(ind => ind.Equals(emp))] = p;
+                if (p.X < x.Taille) p.X++;
+            }
+            else if (x[pos + x.Taille] is Caisse c) 
+            {
+                if (x[pos + (x.Taille * 2)].GetType().Name == "Elements")
+                {
+                    if (p.OnEmplacement)
+                    {
+                        p.OnEmplacement = false;
+                        Emplacement news = new Emplacement(p.X, p.Y);
+                        x[x.FindIndex(ind => ind.Equals(p))] = news;
+                    }
+                    else
+                    {
+                        x[pos + (x.Taille * 2)].X -= 2;
+                        x[pos] = x[pos + (x.Taille * 2)];
+                    }
+                    x[x.FindIndex(ind => ind.Equals(c))] = p;
+                    x[pos + (x.Taille * 2)] = c;
+
+                    if (c.OnEmplacement)
+                    {
+                        p.OnEmplacement = true;
+                        c.OnEmplacement = false;
+                    }
+                    if (p.X < x.Taille) p.X++;
+                    if (c.X < x.Taille) c.X++;
+                }
+                else if (x[pos + (x.Taille * 2)] is Emplacement e)
+                {
+                    if (p.OnEmplacement)
+                    {
+                        p.OnEmplacement = false;
+                        x[x.FindIndex(ind => ind.Equals(p))] = new Emplacement(p.X, p.Y);
+                    }
+                    else { x[x.FindIndex(ind => ind.Equals(p))] = new Elements(p.X, p.Y); }
+
+                    x[x.FindIndex(ind => ind.Equals(c))] = p;
+                    x[x.FindIndex(ind => ind.Equals(e))] = c;
+
+                    c.OnEmplacement = true;
+                    p.OnEmplacement = c.OnEmplacement;
+                    
+                    if (p.X < x.Taille) p.X++;
+                    if (c.X < x.Taille) c.X++;
+                }                        
+            }                          
+            return x;
+        }
     }
 }
