@@ -12,7 +12,7 @@ using System.IO;
 
 namespace AffichageGame
 {
-    public partial class Form2 : Form, IAfficher
+    public partial class Form2 : Form
     {
         public Form2()
         {
@@ -24,9 +24,6 @@ namespace AffichageGame
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
-
-            AffichageGraphique.map = Map.OnMove(AffichageGraphique.map, char.Parse(e.KeyChar.ToString()));
-            this.Afficher(AffichageGraphique.map);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

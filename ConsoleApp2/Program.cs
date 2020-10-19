@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using ClientServeur;
+//using ClientServeur;
 using Sokoban;
 using Utilitaires;
 
@@ -21,7 +21,7 @@ namespace ConsoleApp2
             
             ILoad obj = new LoadFromTxt();
             Map obje = new Map();
-            obje = obje.GetMapInit(di + "\\" + path, 3);
+            obje = obje.GetMapInit(di + "\\" + path, 60);
             
             Application.Run(new AffichageGraphique(obje));
             /*IAfficher afficher = new AffichageConsole();

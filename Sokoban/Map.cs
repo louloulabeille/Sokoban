@@ -12,6 +12,7 @@ namespace Sokoban
         //public delegate void deleg();
         //public event deleg evnt;
         private int _taille;
+        //private bool _win;
 
         public int Taille { get => _taille; set => _taille = value; }
 
@@ -75,13 +76,13 @@ namespace Sokoban
                             case '*':
                                 this.Add(new Caisse(i, j));
                                 break;
-                            case '@':
-                                Personnage p = new Personnage(i, j);                              
-                                this.Add(p);
+                            case '@':                         
+                                this.Add(new Personnage(i, j));
                                 break;
                             case '\r':
                                 break;
                             case '&':
+                                this.Add(new Elements(i, j));
                                 break;
                             default:
                                 throw new ApplicationException("Erreur dans le fichier map. Charactère '" + listFull[i][j] + "' non reconnu");
@@ -108,6 +109,15 @@ namespace Sokoban
                 }
             }
             return returnMove(map, personnage, key);
+        }
+
+        public static bool Win(Map x)
+        {
+            foreach (Elements elem in x)
+            {
+                if (elem is Caisse c) if (!c.OnEmplacement) return false;
+            }
+            return true;
         }
 
         public static Map returnMove(Map x, Personnage p, char key)
