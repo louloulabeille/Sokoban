@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using ClientServeur;
+//using ClientServeur;
 using Sokoban;
 using Utilitaires;
 
@@ -30,13 +30,7 @@ namespace ConsoleApp2
                 afficher.Afficher(obje);
                 obje = Map.OnMove(obje);
             }*/
-
-
         }
-
         //Serveur s = new Serveur();
-    }
-    
-   
-    
+    }    
 }
