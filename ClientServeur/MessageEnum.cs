@@ -14,5 +14,6 @@ namespace ClientsServeur
         gameReady,
         stop,
         reStart,
+        win,
     }
 }

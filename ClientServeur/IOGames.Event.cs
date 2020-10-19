@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace ClientsServeur
 {
@@ -125,10 +126,18 @@ namespace ClientsServeur
         /// <param name="e"></param>
         public void IOGames_EventEndGame(object sender, EventArgs e)
         {
-            //Envoi(TcpClient, MessageReseau.iCopy);
             Envoi(TcpClient, MessageReseau.reStart);
-            
-            Debug.WriteLine($"Dans l'event :{MessageReseau.reStart}");
+            Thread.Sleep(1);    // ca marche voir pourquoi peut être une désynchronisation entre les 2 threads
+        }
+
+        /// <summary>
+        /// méthode de l'event de win la game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void IOGames_EventWinGame(object sender, EventArgs e) 
+        {
+            Envoi(TcpClient, MessageReseau.win);
         }
 
         #endregion

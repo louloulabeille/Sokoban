@@ -5,6 +5,7 @@ using System.Net.Security;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading;
 using Utilitaires;
 
 namespace ClientsServeur
@@ -21,6 +22,7 @@ namespace ClientsServeur
         private GameIOData _donnee; // correspond aux données initiale de la partie
         private GameIOData _donneeAffichage;    // correspond aux données de qui sont affiché en fin de partie
         private TcpClient _tcpClient;
+        private Thread _threadProgramme;
 
         #region constructeur
         /// <summary>
@@ -35,9 +37,7 @@ namespace ClientsServeur
             this._gameReady = false;
             this._wait = false;
             this._initialisation = false;
-            this.EventDeconnexion += IOGames_EventDeconnexion;
-            this.EventEndGame += IOGames_EventEndGame;
-            this.EventGameReady += IOGames_EventGameReady;
+            Abonnement();
         }
         /// <summary>
         /// 
@@ -46,9 +46,7 @@ namespace ClientsServeur
         public IOGame(int port)
         {
             Port = port;
-            this.EventDeconnexion += IOGames_EventDeconnexion;
-            this.EventEndGame += IOGames_EventEndGame;
-            this.EventGameReady += IOGames_EventGameReady;
+            Abonnement();
         }
 
         /// <summary>
@@ -60,9 +58,7 @@ namespace ClientsServeur
         {
             Donnee = data;
             Port = port;
-            this.EventDeconnexion += IOGames_EventDeconnexion;
-            this.EventEndGame += IOGames_EventEndGame;
-            this.EventGameReady += IOGames_EventGameReady;
+            Abonnement();
         }
 
         #endregion
@@ -144,7 +140,13 @@ namespace ClientsServeur
             }
         }
 
+        /// <summary>
+        /// flux du client serveur
+        /// </summary>
         public TcpClient TcpClient { get => _tcpClient; set => _tcpClient = value; }
+        /// <summary>
+        /// donnée de la partie
+        /// </summary>
         public GameIOData Donnee { get => _donnee; set => _donnee = value; }
         /// <summary>
         /// Attention le get DonneeAffichage
@@ -154,6 +156,8 @@ namespace ClientsServeur
         {
             get => _donneeAffichage;
             set => _donneeAffichage = value; }
+
+        public Thread ThreadProgramme { get => _threadProgramme; set => _threadProgramme = value; }
 
         #endregion
 
@@ -171,5 +175,18 @@ namespace ClientsServeur
         }
         #endregion
 
+        #region abonnement event
+        /// <summary>
+        /// méthode de déclareation des abonnements des différents évent
+        /// </summary>
+        public void Abonnement()
+        {
+            this.EventDeconnexion += IOGames_EventDeconnexion;
+            this.EventEndGame += IOGames_EventEndGame;
+            this.EventGameReady += IOGames_EventGameReady;
+            this.EventWinGame += IOGames_EventWinGame;
+        }
+
+        #endregion
     }
 }

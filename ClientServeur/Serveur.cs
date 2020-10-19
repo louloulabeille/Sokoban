@@ -11,7 +11,7 @@ namespace ClientsServeur
     public class Serveur : IOGame
     {
         private TcpListener _socket;
-        private Thread _threadServeur;
+        //private Thread _threadServeur;
 
         #region constructeur
         /// <summary>
@@ -25,8 +25,8 @@ namespace ClientsServeur
             : base(port)    /// initialisation des paramètres au vert
         {
             _socket = new TcpListener(IPAddress.Any, Port);
-            _threadServeur = new Thread(new ThreadStart(ThreadServeurLoop));
-            this._threadServeur.Start();
+            this.ThreadProgramme = new Thread(new ThreadStart(ThreadServeurLoop));
+            this.ThreadProgramme.Start();
             
         }
         /// <summary>
@@ -38,8 +38,8 @@ namespace ClientsServeur
             : base(port,data)    /// initialisation des paramètres au vert
         {
             _socket = new TcpListener(IPAddress.Any, Port);
-            _threadServeur = new Thread(new ThreadStart(ThreadServeurLoop));
-            this._threadServeur.Start();
+            this.ThreadProgramme = new Thread(new ThreadStart(ThreadServeurLoop));
+            this.ThreadProgramme.Start();
 
         }
         #endregion
@@ -84,6 +84,8 @@ namespace ClientsServeur
                             ///traitement de la vue pour initialiser la vue
                             if (!this.EndGame) { this.EndGame = true; }
                             ReStart();
+                            break;
+                        case "win":
                             break;
                     }
                 }

@@ -28,6 +28,16 @@ namespace ClientsServeur
         #endregion
 
         #region methode
+        public void InitialisationGame()
+        {
+            this._endGame = false;
+            this._winGame = false;
+            this._deconnexion = false;
+            this._gameReady = false;
+            this._wait = false;
+            this._initialisation = false;
+            this.DonneeAffichage = null;
+        }
 
         /// <summary>
         /// méthode pour l'arrêt du jeu coté client
@@ -130,9 +140,20 @@ namespace ClientsServeur
             return bF.Deserialize(client.GetStream());
         }
 
+        /// <summary>
+        /// méthode pour re-start le jeu
+        /// </summary>
         public void ReStartGame ()
         {
             this.EndGame = true; //-> levé de event EndGame
+        }
+
+        /// <summary>
+        /// méthode pour dire que la partie est gagnée
+        /// </summary>
+        public void Win()
+        {
+            this.WinGame = true;
         }
 
         /// <summary>
