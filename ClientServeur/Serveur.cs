@@ -149,7 +149,6 @@ namespace ClientsServeur
             this.DonneeAffichage = buffer is GameIOData b ? b : null;
             EnvoiData(TcpClient, this.Donnee);
 
-            this.EndGame = false;
         }
         #endregion
     }

@@ -148,9 +148,6 @@ namespace ClientsServeur
             EnvoiData(TcpClient, this.Donnee);  //->envoi des data pour l'affichage sur l'autre poste
             bufferData = LectureData(TcpClient);    //-> lecture des data pour le redémarrage
             this.Donnee = bufferData is GameIOData c ? c : null;
-
-            this.EndGame = false;
-            //Debug.WriteLine(this.DonneeAffichage.ToString());
         }
 
         #endregion

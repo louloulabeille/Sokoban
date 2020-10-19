@@ -154,9 +154,7 @@ namespace ClientsServeur
         {
             get
             {
-                GameIOData inter = _donneeAffichage;
-                _donneeAffichage = null;
-                return inter;
+                return _donneeAffichage;
             }
             set => _donneeAffichage = value; }
 
