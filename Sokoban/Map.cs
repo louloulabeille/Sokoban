@@ -7,7 +7,7 @@ using Utilitaires;
 
 namespace Sokoban
 {
-    public class Map : List<Elements>, ILoad
+    public class Map : List<Elements>, ILoad, ICloneable
     {
         //public delegate void deleg();
         //public event deleg evnt;
@@ -81,6 +81,8 @@ namespace Sokoban
                                 break;
                             case '\r':
                                 break;
+                            case '&':
+                                break;
                             default:
                                 throw new ApplicationException("Erreur dans le fichier map. Charactère '" + listFull[i][j] + "' non reconnu");
                         }
@@ -99,7 +101,11 @@ namespace Sokoban
             Personnage personnage = new Personnage();
             foreach (Elements elem in map)
             {
-                if(elem is Personnage) personnage = elem as Personnage;            
+                if (elem is Personnage)
+                {
+                    personnage = elem as Personnage;
+                    break;
+                }
             }
             return returnMove(map, personnage, key);
         }
@@ -112,19 +118,13 @@ namespace Sokoban
                 switch (key)
                 {
                     case 'q':
-                        x = LeftMove(x, p);
-                        break;
+                       return LeftMove(x, p);
                     case 'z':
-                        x = UpMove(x, p);
-                        break;
-
+                        return UpMove(x, p);
                     case 'd':
-                        x = RightMove(x, p);
-                        break;
-
+                        return RightMove(x, p);
                     case 's':
-                        DownMove(x, p);
-                        break;
+                        return DownMove(x, p);
                 }
             }
             else
@@ -132,27 +132,36 @@ namespace Sokoban
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.LeftArrow:
-                        x = LeftMove(x, p);
-                        break;
+                        return LeftMove(x, p);
                     case ConsoleKey.UpArrow:
-                        x = UpMove(x, p);
-                        break;
-
+                        return UpMove(x, p);
                     case ConsoleKey.RightArrow:
-                        x = RightMove(x, p);
-                        break;
-
+                        return RightMove(x, p);
                     case ConsoleKey.DownArrow:
-                        DownMove(x, p);
-                        break;
+                        return DownMove(x, p);
                 }
             }
             return x;
         }
 
-        public static Map LeftMove(Map x, Personnage p)
+        public object Clone()
         {
+            Map ne = new Map
+            {
+                Taille = this.Taille
+            };
+            foreach (Elements item in this)
+            {
+                ne.Add(item);
+            }
+            return ne;
+        }
+
+        public static Map LeftMove(Map map, Personnage p)
+        {
+            Map x = map;
             int pos = x.IndexOf(p);
+           
             if (x[pos - 1].GetType().Name == "Elements")
             {
                 if (p.OnEmplacement)

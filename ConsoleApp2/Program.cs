@@ -22,13 +22,14 @@ namespace ConsoleApp2
             ILoad obj = new LoadFromTxt();
             Map obje = new Map();
             obje = obje.GetMapInit(di + "\\" + path, 3);
-            IAfficher afficher = new AffichageConsole() ;
-            //Application.Run(new AffichageGraphique(obje.GetMapInit(di + "\\" + path, 1)));
+            
+            Application.Run(new AffichageGraphique(obje));
+            /*IAfficher afficher = new AffichageConsole();
             while (true)
             {
                 afficher.Afficher(obje);
                 obje = Map.OnMove(obje);
-            }
+            }*/
 
 
         }
