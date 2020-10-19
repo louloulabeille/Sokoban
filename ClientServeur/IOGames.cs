@@ -5,10 +5,11 @@ using System.Net.Security;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using Utilitaires;
 
-namespace ClientServeur
+namespace ClientsServeur
 {
-    public abstract class IOGame
+    public abstract partial class IOGame
     {
         private bool _endGame;  // gère la fin du jeux
         private bool _winGame;  // gère si une partie est gagnée
@@ -18,7 +19,6 @@ namespace ClientServeur
         private bool _wait;
         private int _port;
         private object _donnee;
-        
         private TcpClient _tcpClient;
 
         #region constructeur
@@ -34,11 +34,30 @@ namespace ClientServeur
             this._gameReady = false;
             this._wait = false;
             this._initialisation = false;
-
+            this.EventDeconnexion += IOGames_EventDeconnexion;
+            this.EventEndGame += IOGames_EventEndGame;
+            this.EventGameReady += IOGames_EventGameReady;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="port"> port réseau d'écoute </param>
         public IOGame(int port)
-            : base()
         {
+            Port = port;
+            this.EventDeconnexion += IOGames_EventDeconnexion;
+            this.EventEndGame += IOGames_EventEndGame;
+            this.EventGameReady += IOGames_EventGameReady;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="port"> port réseau d'écoute </param>
+        /// <param name="data"> données à envoyer du serveur vers client </param>
+        public IOGame(int port, GameIOData data)
+        {
+            Donnee = data;
             Port = port;
             this.EventDeconnexion += IOGames_EventDeconnexion;
             this.EventEndGame += IOGames_EventEndGame;
@@ -129,223 +148,19 @@ namespace ClientServeur
 
         #endregion
 
-        #region methode de vérification
-        public bool IsVerifPort(int port)
-        {
-            return port > IPEndPoint.MinPort && port < IPEndPoint.MaxPort;
-        }
-
-        #endregion
-
-        #region event
-        public event EventHandler EventEndGame;
-        public event EventHandler EventWinGame;
-        public event EventHandler EventDeconnexion;
-        public event EventHandler EventGameReady;
-        public event EventHandler EventWait;
-        public event EventHandler EventInitialisation;
-        #endregion
-
-        #region methode des events de lancement
-        
-        /// <summary>
-        /// evênement sur initialisation des jeux
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnEventInitialisation ( object sender, EventArgsInitialisation e )
-        {
-            EventHandler handler = EventInitialisation;
-            if (handler != null) handler(sender, e);
-        }
-        /// <summary>
-        /// creation de EventEndGame
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnEventEndGame(object sender, EventArgs e)
-        {
-            EventHandler handler = EventEndGame;
-            if (handler != null) handler(sender, e);
-        }
+        #region méthode hérité de object
 
         /// <summary>
-        /// creation de EventWinGame
+        /// ToString retourne une chaine
+        /// de l'état du client ou serveur
+        /// this.EndGame, this.WinGame, this.Deconnexion, this.GameReady, this.Initialisation
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnEventWinGame(object sender, EventArgs e)
-        {
-            EventHandler handler = EventWinGame;
-            if (handler != null) handler(sender, e);
-        }
-
-        /// <summary>
-        /// creation de EventDeconnexion
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnEventDeconnexion(object sender, EventArgs e)
-        {
-            EventHandler handler = EventDeconnexion;
-            if (handler != null) handler(sender, e);
-        }
-
-        /// <summary>
-        /// event en attente initialisation du jeu quand tout est prêt pour lancer le jeu 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnEventGameReady(object sender, EventArgs e)
-        {
-            EventHandler hendler = EventGameReady;
-            if (hendler != null) hendler(sender, e);
-        }
-
-        /// <summary>
-        /// mise en attente
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected virtual void OnEventWait(object sender, EventArgs e)
-        {
-            EventHandler hendler = EventWait;
-            if (hendler != null) hendler(hendler, e);
-        }
-        #endregion
-
-        #region methode event
-
-        /// <summary>
-        /// Event de gestion si le partie sont prêt a jouer
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void IOGames_EventGameReady( object sender, EventArgs e)
-        {
-            if ( GameReady )
-            {
-                Envoi(TcpClient, MessageReseau.gameReady);
-            }
-        }
-
-        /// <summary>
-        /// Methode de event arret du jeu
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void IOGames_EventDeconnexion(object sender, EventArgs e)
-        {
-            if ( Envoi(TcpClient, MessageReseau.stop) )
-            {
-                int nbOctet;
-                byte[] retour;
-                retour = Lecture(TcpClient, out nbOctet);
-                if (retour.Length != 0) StopAll();
-            }
-            StopAll();
-            Deconnexion = false;
-        }
-
-        /// <summary>
-        /// gestion de event deconnexion ou connexion impossible
-        /// on refait 5 tentatives
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void IOGames_EventEndGame(object sender, EventArgs e)
-        {
-            if (Envoi(TcpClient, MessageReseau.stop))
-            {
-                int nbOctet;
-                byte[] retour;
-                retour = Lecture(TcpClient, out nbOctet);
-                if ( retour.Length != 0) StopAll();
-            }
-            StopAll();
-        }
-        #endregion
-
-        #region methode
-
-        /// <summary>
-        /// méthode pour l'arrêt du jeu coté client
-        /// </summary>
-        protected virtual bool StopAll()
-        {
-            this.TcpClient.Close();
-            return true;
-        }
-
-        public void Arret()
-        {
-            Deconnexion = true;
-        }
-
-        /// <summary>
-        /// initialisation du lancement du jeu
-        /// attente de init
-        /// </summary>
-        /// <param name="client"></param>
-        /// <param name="nbOctet"></param>
         /// <returns></returns>
-        protected virtual byte[] Lecture(TcpClient client, out int nbOctet)
+        public override string ToString()
         {
-            byte[] buffer = new byte[1024];
-            NetworkStream nS = client.GetStream();
-            nbOctet = 0;
-            if (nS.CanRead)
-            {
-                do
-                {
-                    nbOctet = nS.Read(buffer, 0, buffer.Length);
-                } while (nS.DataAvailable);
-            }
-            return buffer;
+            return string.Format("{0};{1};{2};{3};{4}", this.EndGame, this.WinGame, this.Deconnexion, this.GameReady, this.Initialisation);
         }
-
-        /// <summary>
-        /// méthode à mettre à fin du chargement
-        /// </summary>
-        /// <param name="client"></param>
-        /// <returns></returns>
-        protected bool Envoi(TcpClient client, MessageReseau message)
-        {
-            if (client.Connected)
-            {
-                NetworkStream nS = client.GetStream();
-                byte[] buffer = System.Text.Encoding.UTF8.GetBytes(message.ToString());
-                if (nS.CanWrite)
-                {
-                    nS.Write(buffer);
-                    return true;
-                }
-                return false;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
-        /// <summary>
-        /// méthode initialisation
-        /// </summary>
-        /// <param name="client"></param>
-        /// <returns></returns>
-        protected void InitGame ( TcpClient client, object donne )
-        {
-            BinaryFormatter bF = new BinaryFormatter();
-            bF.Serialize(client.GetStream(), donne);
-        }
-
-        protected object InitGameReception(TcpClient client)
-        {
-            BinaryFormatter bF = new BinaryFormatter();
-            return bF.Deserialize(client.GetStream());
-        }
-
         #endregion
+
     }
 }

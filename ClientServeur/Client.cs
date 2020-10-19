@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using Utilitaires;
 
-namespace ClientServeur
+namespace ClientsServeur
 {
     /// <summary>
     /// classe serveur
@@ -26,7 +26,7 @@ namespace ClientServeur
             : base(port)
         {
             AdresseIP = adresseIP;
-            Thread.Sleep(100);
+            Thread.Sleep(1000);
             this._threadClient = new Thread(new ThreadStart(Connexion));
             this._threadClient.Start();
 
@@ -39,6 +39,8 @@ namespace ClientServeur
         #endregion
 
         #endregion
+
+        #region méthode 
         /// <summary>
         /// connexion au serveur
         /// </summary>
@@ -109,7 +111,6 @@ namespace ClientServeur
                             break;
                     }
                     buffer = new byte[1024];
-
                     message = string.Empty;
                 }
             }
@@ -149,6 +150,8 @@ namespace ClientServeur
                 Debug.WriteLine("Source: {0}", e.Source);
             }
         }
+
+        #endregion
 
         #region method des event
 
