@@ -125,12 +125,13 @@
             // 
             this.panel1.Location = new System.Drawing.Point(65, 57);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(700, 700);
+            this.panel1.Size = new System.Drawing.Size(850, 850);
             this.panel1.TabIndex = 2;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // btnDroite
             // 
+            this.btnDroite.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnDroite.Location = new System.Drawing.Point(1085, 534);
             this.btnDroite.Name = "btnDroite";
             this.btnDroite.Size = new System.Drawing.Size(60, 54);
@@ -139,6 +140,7 @@
             // 
             // btnHaut
             // 
+            this.btnHaut.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnHaut.Location = new System.Drawing.Point(1019, 474);
             this.btnHaut.Name = "btnHaut";
             this.btnHaut.Size = new System.Drawing.Size(60, 54);
@@ -148,6 +150,7 @@
             // 
             // btnBas
             // 
+            this.btnBas.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnBas.Location = new System.Drawing.Point(1019, 534);
             this.btnBas.Name = "btnBas";
             this.btnBas.Size = new System.Drawing.Size(60, 54);
@@ -156,6 +159,7 @@
             // 
             // btnGauche
             // 
+            this.btnGauche.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.btnGauche.Location = new System.Drawing.Point(953, 534);
             this.btnGauche.Name = "btnGauche";
             this.btnGauche.Size = new System.Drawing.Size(60, 54);
@@ -164,6 +168,7 @@
             // 
             // textBox1
             // 
+            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.textBox1.Location = new System.Drawing.Point(953, 399);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(192, 27);
@@ -173,6 +178,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1321, 771);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnGauche);

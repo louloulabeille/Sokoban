@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ClientServeur
+namespace ClientsServeur
 {
     public class EventArgsInitialisation : EventArgs
     {

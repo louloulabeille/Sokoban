@@ -61,11 +61,47 @@ namespace AffichageGame {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à trophy.
+        /// </summary>
+        internal static string caisse {
+            get {
+                return ResourceManager.GetString("caisse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à terre.
+        /// </summary>
+        internal static string emplacement {
+            get {
+                return ResourceManager.GetString("emplacement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à sokoban-maps-60-plain.txt.
         /// </summary>
         internal static string File {
             get {
                 return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à cactus.
+        /// </summary>
+        internal static string mur {
+            get {
+                return ResourceManager.GetString("mur", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à personnage.
+        /// </summary>
+        internal static string personnage {
+            get {
+                return ResourceManager.GetString("personnage", resourceCulture);
             }
         }
     }

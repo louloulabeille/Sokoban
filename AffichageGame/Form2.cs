@@ -17,18 +17,16 @@ namespace AffichageGame
         public Form2()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
             btnSelect.Enabled = false;
-            Map test = new Map();
-            IAfficher afficher = new Form2();
-            ILoad obj = new LoadFromTxt();
-            Map obje = new Map();
-           // obje.GetMapInit(di + "\\" + "sokoban-maps-60-plain.txt", 2);
-           /* while (true)
-            {
-                afficher.Afficher(obje);
-                obje = Map.OnMove(obje);
-            }*/
 
+        }
+
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            AffichageGraphique.map = Map.OnMove(AffichageGraphique.map, char.Parse(e.KeyChar.ToString()));
+            this.Afficher(AffichageGraphique.map);
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -69,6 +67,11 @@ namespace AffichageGame
 
         public void Afficher(Map map)
         {
+            string path = Resource.File;
+            string cd = Directory.GetCurrentDirectory();
+            DirectoryInfo di = new DirectoryInfo(cd);
+            di = di.Parent.Parent.Parent.Parent;
+
             this.panel1.Controls.Clear();
             int taille = Taille(map);
 
@@ -79,12 +82,22 @@ namespace AffichageGame
                 if (item is Personnage) 
                 {
                     bouton.Name = "Name_Personnage";
-                    bouton.BackColor = Color.Blue;
-                }
-                else if (item is Caisse) { bouton.BackColor = Color.Green; }
-                else if (item is Mur) { bouton.BackColor = Color.Black; }
-                else if (item is Emplacement) { bouton.BackColor = Color.HotPink; }
-                //else if (item is Elements) { bouton.BackColor = Color.Chartreuse; }
+                    Image image = Image.FromFile(di+ "/personnage.png");
+                    image = new Bitmap(image, panel1.Width / taille, panel1.Height / taille);
+                    bouton.Image = image;}
+                else if (item is Caisse) {
+                    Image image = Image.FromFile(di + "/trophy.png");
+                    image = new Bitmap(image, panel1.Width / taille, panel1.Height / taille);
+                    bouton.Image = image;}
+                else if (item is Mur) {
+                    Image image = Image.FromFile(di + "/cactus.png");
+                    image = new Bitmap(image, panel1.Width / taille, panel1.Height / taille);
+                    bouton.Image = image;}
+                else if (item is Emplacement) {
+                    Image image = Image.FromFile(di + "/terre.png");
+                    image = new Bitmap(image, panel1.Width / taille, panel1.Height / taille);
+                    bouton.Image = image;}
+                //else if (item is Elements) { bouton.BackColor = Color.White; }
                 bouton.Location = new Point(item.Y * panel1.Width / taille, item.X * panel1.Width / taille);
                 panel1.Controls.Add(bouton);
             }
@@ -112,5 +125,6 @@ namespace AffichageGame
             
         }
 
+        
     }
 }

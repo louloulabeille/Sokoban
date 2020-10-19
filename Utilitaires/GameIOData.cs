@@ -30,5 +30,12 @@ namespace Utilitaires
         public int NbDeplacement { get => _nbDeplacement; set => _nbDeplacement = value; }
         public int Lvl { get => _lvl; set => _lvl = value; }
         #endregion
+
+        #region méthode hérité de object
+        public override string ToString()
+        {
+            return string.Format("{0};{1}",this._lvl,this._nbDeplacement);
+        }
+        #endregion
     }
 }

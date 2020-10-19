@@ -117,7 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="caisse" xml:space="preserve">
+    <value>trophy</value>
+  </data>
+  <data name="emplacement" xml:space="preserve">
+    <value>terre</value>
+  </data>
   <data name="File" xml:space="preserve">
     <value>sokoban-maps-60-plain.txt</value>
+  </data>
+  <data name="mur" xml:space="preserve">
+    <value>cactus</value>
+  </data>
+  <data name="personnage" xml:space="preserve">
+    <value>personnage</value>
   </data>
 </root>

@@ -2,7 +2,7 @@
 /// enumerable des messages entre client et serveur
 /// </summary>
 
-namespace ClientServeur
+namespace ClientsServeur
 {
     public enum MessageReseau
     {

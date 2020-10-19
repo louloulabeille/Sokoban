@@ -17,6 +17,7 @@ namespace AffichageGame
         public Form1()
         {
             InitializeComponent();
+            WindowState = FormWindowState.Maximized;
         }
 
         Form2 form2;
