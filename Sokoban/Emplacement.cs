@@ -1,4 +1,6 @@
-﻿namespace Sokoban
+﻿using System;
+
+namespace Sokoban
 {
     public class Emplacement : Elements
     {
@@ -6,9 +8,11 @@
         #endregion Champs privés
 
         #region propriétés 
+
         #endregion propriétés 
 
         #region Méthode
+
         #endregion Méthode
 
         #region Constructeur

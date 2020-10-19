@@ -40,6 +40,7 @@ namespace Sokoban
         #endregion propriétés 
 
         #region Méthode
+
         #endregion Méthode
 
         #region Constructeur
@@ -49,6 +50,7 @@ namespace Sokoban
             OnEmplacement = false;
             this.EventMoveCaisse += Caisse.Caisse_EventMoveCaisse;
         }
+        public Caisse() { }
         #endregion Constructeur
 
         #region Evenement

@@ -2,7 +2,7 @@
 
 namespace Sokoban
 {
-    public class Elements
+    public class Elements 
     {
         #region Champs privés
 
@@ -36,6 +36,8 @@ namespace Sokoban
         {
             return this.Content.ToString();
         }
+
+       
         #endregion Méthode
 
         #region Constructeur

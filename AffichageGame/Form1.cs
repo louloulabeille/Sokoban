@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,23 +18,36 @@ namespace AffichageGame
         public Form1()
         {
             InitializeComponent();
+            WindowState = FormWindowState.Maximized;
         }
 
         Form2 form2;
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            
-        }
+        AffichageGraphique affichagegrph;
+       
 
         private void click_Solo(object sender, EventArgs e)
         {
-            if (form2 == null)
+            string path = Resource.File;
+            string cd = Directory.GetCurrentDirectory();
+            DirectoryInfo di = new DirectoryInfo(cd);
+            di = di.Parent.Parent.Parent.Parent;
+
+
+
+            Map map = new Map();
+            map.GetMapInit(di + "/sokoban-maps-60-plain.txt", 3);
+
+            if (affichagegrph == null)
             {
-                form2 = new Form2();
-                form2.MdiParent = this;
-                form2.Show();
+                affichagegrph = new AffichageGraphique(map);
+                affichagegrph.MdiParent = this;
+                affichagegrph.Show();
             }
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }
