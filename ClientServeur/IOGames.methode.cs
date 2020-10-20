@@ -28,6 +28,16 @@ namespace ClientsServeur
         #endregion
 
         #region methode
+        public void InitialisationGame()
+        {
+            this._endGame = false;
+            this._winGame = false;
+            this._deconnexion = false;
+            this._gameReady = false;
+            this._wait = false;
+            this._initialisation = false;
+            this.DonneeAffichage = null;
+        }
 
         /// <summary>
         /// méthode pour l'arrêt du jeu coté client
@@ -98,13 +108,13 @@ namespace ClientsServeur
         /// <returns></returns>
         public bool ChargementData()
         {
-            while (this.Donnee == null) { };
+            while (this._donnee == null) { };
             return true;
         }
 
         public bool ChargementDataAffichage()
         {
-            while (this.DonneeAffichage == null) { };
+            while (this._donneeAffichage == null) { };
             return true;
         }
 
@@ -130,9 +140,20 @@ namespace ClientsServeur
             return bF.Deserialize(client.GetStream());
         }
 
+        /// <summary>
+        /// méthode pour re-start le jeu
+        /// </summary>
         public void ReStartGame ()
         {
             this.EndGame = true; //-> levé de event EndGame
+        }
+
+        /// <summary>
+        /// méthode pour dire que la partie est gagnée
+        /// </summary>
+        public void Win()
+        {
+            this.WinGame = true;
         }
 
         /// <summary>
@@ -148,9 +169,6 @@ namespace ClientsServeur
             EnvoiData(TcpClient, this.Donnee);  //->envoi des data pour l'affichage sur l'autre poste
             bufferData = LectureData(TcpClient);    //-> lecture des data pour le redémarrage
             this.Donnee = bufferData is GameIOData c ? c : null;
-
-            this.EndGame = false;
-            //Debug.WriteLine(this.DonneeAffichage.ToString());
         }
 
         #endregion

@@ -14,7 +14,7 @@ namespace ClientsServeur
     /// </summary>
     public class Client : IOGame
     {
-        private Thread _threadClient;
+        //private Thread _threadClient;
         private IPAddress _adresseIP;       // adresse ip du serveur
 
         #region constructeur
@@ -25,8 +25,8 @@ namespace ClientsServeur
             : base(port)
         {
             AdresseIP = adresseIP;
-            this._threadClient = new Thread(new ThreadStart(Connexion));
-            this._threadClient.Start();
+            this.ThreadProgramme = new Thread(new ThreadStart(Connexion));
+            this.ThreadProgramme.Start();
 
             // allocation à la classe des ces évènements
             EventGameReady += IOGames_EventGameReady;
@@ -107,6 +107,9 @@ namespace ClientsServeur
                         case "reStart":
                             if (!this.EndGame) { this.EndGame = true; }
                             ReStart();
+                            break;
+                        case "win":
+
                             break;
                     }
                 }
