@@ -15,13 +15,14 @@ namespace AffichageGame
     public partial class AffichageGraphique : Form, IAfficher
     {
         public static Map mapActuel;
-        public AffichageGraphique(Map map)
+        public static int lv;
+        public AffichageGraphique(Map map, int level)
         {
-           InitializeComponent();
+            InitializeComponent();
+            lv = level;
             this.WindowState = FormWindowState.Maximized;
-
             AffichageGraphique.mapActuel = map;
-           this.Afficher(map);
+            this.Afficher(map);
         }
  
 
@@ -31,10 +32,23 @@ namespace AffichageGame
             x = mapActuel.Clone() as Map;
             mapActuel = Map.OnMove(mapActuel, char.Parse(e.KeyChar.ToString()));
             this.Afficher2(x);
-            if(Map.Win(x)) MessageBox.Show("Win");
+            if (Map.Win(x))
+            {
+                string path = Resource.File;
+                string cd = Directory.GetCurrentDirectory();
+                DirectoryInfo di = new DirectoryInfo(cd);
+                di = di.Parent.Parent.Parent.Parent;
+
+                MessageBox.Show("Win");
+                lv += 1;
+                Map map = new Map();
+                AffichageGraphique.mapActuel = map.GetMapInit(di+"/"+path ,lv);
+                this.Afficher(map);
+            }
         }
         public void Afficher(Map map)
         {
+            Controls.Clear();
             string path = Resource.File;
             string cd = Directory.GetCurrentDirectory();
             DirectoryInfo di = new DirectoryInfo(cd);

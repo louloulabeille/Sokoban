@@ -27,27 +27,19 @@ namespace AffichageGame
 
         private void click_Solo(object sender, EventArgs e)
         {
-            string path = Resource.File;
-            string cd = Directory.GetCurrentDirectory();
-            DirectoryInfo di = new DirectoryInfo(cd);
-            di = di.Parent.Parent.Parent.Parent;
-
-
-
-            Map map = new Map();
-            map.GetMapInit(di + "/sokoban-maps-60-plain.txt", 3);
-
-            if (affichagegrph == null)
-            {
-                affichagegrph = new AffichageGraphique(map);
-                affichagegrph.MdiParent = this;
-                affichagegrph.Show();
-            }
+            MessageBox.Show(AffichageGraphique.lv.ToString());
         }
 
+
+        
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        private void click_Reset(object sender, EventArgs e)
+        {
+            MessageBox.Show("ddsds");
         }
     }
 }

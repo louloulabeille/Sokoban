@@ -13,8 +13,8 @@ namespace Utilitaires
             string toSearch = "Maze: " + level.ToString();
             int postmp = text.IndexOf(toSearch, 0);
             int pos2 = text.IndexOf("*************************************", postmp);
-            int pos1 = text.IndexOf("\r\n\r\n", postmp) + 4;
-            string tmp = text.Substring(pos1, pos2 - pos1);
+            int pos1 = text.IndexOf("\n\n", postmp) + 2;
+            string tmp = text.Substring(pos1, pos2 - pos1-2);
             List<string> listTmp = tmp.Split('\n').ToList();
             List<List<char>> toReturn = new List<List<char>>();
             for (int i = 0; i < listTmp.Count; i++)
