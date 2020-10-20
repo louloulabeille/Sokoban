@@ -18,7 +18,6 @@ namespace ClientsServeur
         #endregion
 
         #region methode des events de lancement
-
         /// <summary>
         /// evênement sur initialisation des jeux
         /// </summary>
@@ -138,6 +137,7 @@ namespace ClientsServeur
         public void IOGames_EventWinGame(object sender, EventArgs e) 
         {
             Envoi(TcpClient, MessageReseau.win);
+            Thread.Sleep(1);    // ca marche voir pourquoi peut être une désynchronisation entre les 2 threads
         }
 
         #endregion

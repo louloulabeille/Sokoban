@@ -143,16 +143,18 @@ namespace ClientsServeur
         /// <summary>
         /// méthode pour re-start le jeu
         /// </summary>
-        public void ReStartGame ()
+        public void ReStartGame (GameIOData data)
         {
+            this.Donnee = data;
             this.EndGame = true; //-> levé de event EndGame
         }
 
         /// <summary>
         /// méthode pour dire que la partie est gagnée
         /// </summary>
-        public void Win()
+        public void Win(GameIOData data)
         {
+            this.Donnee = data;
             this.WinGame = true;
         }
 

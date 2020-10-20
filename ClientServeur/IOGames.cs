@@ -21,7 +21,7 @@ namespace ClientsServeur
         private int _port;
         private GameIOData _donnee; // correspond aux données initiale de la partie
         private GameIOData _donneeAffichage;    // correspond aux données de qui sont affiché en fin de partie
-        private TcpClient _tcpClient;
+        private TcpClient _tcpClient;   // gestion liste pour avoir plusieurs connexion
         private Thread _threadProgramme;
 
         #region constructeur

@@ -104,12 +104,11 @@ namespace ClientsServeur
                             //Envoi(TcpClient, MessageReseau.iCopy);
                             stop = !StopAll();
                             break;
-                        case "reStart":
-                            if (!this.EndGame) { this.EndGame = true; }
-                            ReStart();
-                            break;
                         case "win":
-
+                        case "reStart":
+                            if (!this.EndGame & message.Equals("reStart")) { this.EndGame = true; }
+                            if (!this.WinGame & message.Equals("win")) { this.WinGame = true; }
+                            ReStart();
                             break;
                     }
                 }

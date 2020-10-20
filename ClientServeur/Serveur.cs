@@ -80,12 +80,12 @@ namespace ClientsServeur
                             /// traitement initialisation de la partie
                             EnvoiData(TcpClient, this.Donnee);
                             break;
+                        case "win":
                         case "reStart":
                             ///traitement de la vue pour initialiser la vue
-                            if (!this.EndGame) { this.EndGame = true; }
+                            if (!this.EndGame & message.Equals("reStart")) { this.EndGame = true; }
+                            if (!this.WinGame & message.Equals("win")) { this.WinGame = true; }
                             ReStart();
-                            break;
-                        case "win":
                             break;
                     }
                 }
